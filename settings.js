@@ -36,7 +36,7 @@ global.rcanal         = 'https://whatsapp.com/channel/0029Vb85bh7EAKWOM4Zw8N3G'
 global.newsletterJid  = '120363408182996815@newsletter'
 global.newsletterName = '༺𝕿𝔧᭄⏤͟͟͞͞𝕿𝖔𝖏𝖎 𝕱𝖚𝖘𝖍𝖎𝖌𝖚𝖗𝖔𒆜℘࿐༵'
 
-global.banner = 'https://upload.yotsuba.giize.com/u/Uj1apzmd.jpg'
+global.banner = 'https://upload.yotsuba.giize.com/u/-6zIeeUe.jpeg'
 global.icono  = 'https://upload.yotsuba.giize.com/u/Ti0_n2am.png'
 
 // ── Iconos aleatorios de Toji ────────────────────────────
