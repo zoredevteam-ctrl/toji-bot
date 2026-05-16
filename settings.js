@@ -3,7 +3,7 @@
 // ║   "No necesito cursed energy... soy la maldición."   ║
 // ╚══════════════════════════════════════════════════════╝
 
-global.owner = ['521XXXXXXXXXX'] // Tu número con código de país, sin +
+global.owner = ['573107400303'] // Tu número con código de país, sin +
 global.botName = '༺𝕿𝔧᭄⏤͟͟͞͞𝕿𝖔𝖏𝖎 𝕱𝖚𝖘𝖍𝖎𝖌𝖚𝖗𝖔𒆜℘࿐༵'
 global.prefix = '#'
 
