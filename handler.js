@@ -55,16 +55,22 @@ function isPremiumJid(jid) {
 
 const PREFIXES = ['#', '.', '/', '$'];
 
-// Helper para descargar la URL a un Buffer compatible con WhatsApp Normal
+// ── 🛠️ HELPER OPTIMIZADO PARA EVITAR CUADROS NEGROS ───────────────────
 const getBuffer = async (url) => {
     try {
-        const res = await fetch(url)
-        if (!res.ok) return null
-        return Buffer.from(await res.arrayBuffer())
+        if (!url) return null;
+        // Si es una URL remota, la forzamos a un JPG ultra liviano de 200x200 para cumplir las reglas de WhatsApp móvil
+        const targetUrl = url.startsWith('http') 
+            ? `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=200&h=200&output=jpg&bg=white` 
+            : url;
+            
+        const res = await fetch(targetUrl);
+        if (!res.ok) return null;
+        return Buffer.from(await res.arrayBuffer());
     } catch {
-        return null
+        return null;
     }
-}
+};
 
 function getPrefix(body) {
     for (const p of PREFIXES) {
@@ -83,12 +89,11 @@ const similarity = (a, b) => {
 
 const tojiReply = async (conn, m, txt) => {
     try {
-        // Obtenemos un icono completamente aleatorio de tus settings usando tu función
         let iconUrl = typeof global.getRandomIconoToji === 'function' 
             ? global.getRandomIconoToji() 
             : (global.icono || global.banner || '');
 
-        // Convertimos la URL en Buffer binario para corregir el bug del externalAdReply invisible
+        // Descarga el buffer ya optimizado, pequeño y sin transparencias rotas
         const thumbBuffer = await getBuffer(iconUrl);
 
         await conn.sendMessage(m.chat, { 
@@ -104,7 +109,7 @@ const tojiReply = async (conn, m, txt) => {
                     title: '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍',
                     body: 'Asesino de Hechiceros',
                     mediaType: 1,
-                    thumbnail: thumbBuffer, // Corregido: Ahora inyecta el buffer real en lugar de thumbnailUrl
+                    thumbnail: thumbBuffer, 
                     sourceUrl: global.rcanal || '',
                     renderLargerThumbnail: false
                 }
