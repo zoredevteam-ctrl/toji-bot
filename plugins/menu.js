@@ -1,62 +1,184 @@
-/* 
-    PLUGIN: MENU TOJI FUSHIGURO
-    ESTILO: MERCENARIO
-*/
+import { performance } from 'perf_hooks'
+import os from 'os'
 
-let handler = async (m, { conn, usedPrefix, isOwner, isAdmin, isPremium, db }) => {
-    
-    // Accedemos a los usuarios usando 'db' que ya viene verificado desde el handler
-    const user = db.users[m.sender]
-    const name = user?.name || m.pushName || 'Desconocido'
-    
-    // Roles estéticos de Toji
-    const role = isOwner ? '👑 Amo del Clan Zenin' : (isAdmin ? '⚔️ Shinobi de Élite' : '👥 Mercenario')
-    
-    const menuText = `⚔️  ──  ᴛᴏᴊɪ ғᴜsʜɪɢᴜʀᴏ ᴍᴅ  ──  ⚔️
+const handler = async (m, { conn, usedPrefix: px }) => {
 
-Hola, *${name}*.
-El dinero mueve el mundo, no las maldiciones. 
-Aquí tienes mis servicios actuales:
+    // ── TOJI FUSHIGURO SYSTEM ─────────────────────────
+    const botName = '𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎'
+    const version = '𝙃𝙀𝘼𝙑𝙀𝙉𝙇𝙔 𝙍𝙀𝙎𝙏𝙍𝙄𝘾𝙏𝙄𝙊𝙉'
+    const developer = '𝐙𝟎𝐑𝐓 𝐒𝐘𝐒𝐓𝐄𝐌𝐒'
+    const protocol = '𝐒𝐎𝐑𝐂𝐄𝐑𝐄𝐑 𝐊𝐈𝐋𝐋𝐄𝐑'
 
-✦ [ 👤 ᴘᴇʀғɪʟ ]
-  ➢ Rol: ${role}
-  ➢ Zenis: ${user?.money || 0}
-  ➢ Nivel: ${user?.level || 1}
+    const banner = global.banner || 'https://causas-files.vercel.app/fl/jwlr.jpg'
+    const canal = global.rcanal || 'https://whatsapp.com'
+    const newsletter = global.newstter || canal
 
-✦ [ ⚔️ ᴍᴇɴᴜ́ ᴅᴇ ᴄᴏɴᴛʀᴀᴛᴏs ]
-  ➢ ${usedPrefix}reg - Registrarse en el clan
-  ➢ ${usedPrefix}perfil - Tu estado como mercenario
-  ➢ ${usedPrefix}shop - Mercado negro (Zenis)
-  ➢ ${usedPrefix}sticker - Conversión rápida
-  ➢ ${usedPrefix}play - Buscar información (Música/Video)
+    // ── PERFORMANCE ───────────────────────────────────
+    const speed = performance.now().toFixed(4)
 
-✦ [ 👑 ᴄᴏᴍᴀɴᴅᴏs ᴅᴇ ᴄʟᴀɴ (ᴀᴅᴍɪɴs) ]
-  ➢ ${usedPrefix}kick - Expulsar no deseados
-  ➢ ${usedPrefix}hidetag - Anuncio para el clan
-  ➢ ${usedPrefix}setwelcome - Configurar entrada
+    const usedRam = (process.memoryUsage().rss / 1024 / 1024).toFixed(1)
+    const totalRam = (os.totalmem() / 1024 / 1024 / 1024).toFixed(0)
 
-✦ [ 🔗 ᴄᴀɴᴀʟ ᴏғɪᴄɪᴀʟ ]
-  ➢ Sígueme aquí: ${global.rcanal || 'https://whatsapp.com'}
+    const uptime = ((seconds) => {
+        const d = Math.floor(seconds / 86400)
+        const h = Math.floor((seconds % 86400) / 3600)
+        const m = Math.floor((seconds % 3600) / 60)
+        return `${d}D ${h}H ${m}M`
+    })(process.uptime())
 
-──────────────────────────
-*El sistema está activo. No me hagas perder el tiempo.*`.trim()
+    // ── USER DATA ─────────────────────────────────────
+    const user = global.db.data.users[m.sender] || {}
+    const {
+        level = 1,
+        exp = 0,
+        money = 0
+    } = user
 
-    try {
-        // Fallback seguro si las funciones de banner no existen aún en global
-        const thumb = typeof global.getBannerThumb === 'function' ? await global.getBannerThumb() : null
-        const ctx = typeof global.getNewsletterCtx === 'function' 
-            ? global.getNewsletterCtx(thumb, '⚔️ SISTEMA DE CONTRATOS', 'El asesino de hechiceros') 
-            : {}
+    const isOwner = [
+        conn.user.jid,
+        ...global.owner.map(v => v[0] + '@s.whatsapp.net')
+    ].includes(m.sender)
 
-        await conn.sendMessage(m.chat, { 
-            text: menuText, 
-            contextInfo: ctx 
-        }, { quoted: m })
+    // ── MENU STYLE ────────────────────────────────────
+    let menu = `
+╭─┈ ⟬ ☠️ ⟭ ┈─╮
+│
+│  𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎
+│  ${version}
+│
+╰─┈─────────┈─╯
 
-    } catch (e) {
-        await m.reply(menuText)
+> “𝚃𝚑𝚎 𝚘𝚗𝚎 𝚠𝚑𝚘 𝚕𝚎𝚏𝚝 𝚒𝚝 𝚊𝚕𝚕 𝚋𝚎𝚑𝚒𝚗𝚍...”
+
+╭─┈ ⟬ 👤 USER STATUS ⟭ ┈─╮
+│ ◦ USER: @${m.sender.split('@')[0]}
+│ ◦ LEVEL: ${level}
+│ ◦ EXP: ${exp.toLocaleString()}
+│ ◦ YEN: ${money.toLocaleString()}
+╰─┈─────────┈─╯
+
+╭─┈ ⟬ ⚔️ SYSTEM INFO ⟭ ┈─╮
+│ ◦ SPEED: ${speed} MS
+│ ◦ RAM: ${usedRam}MB / ${totalRam}GB
+│ ◦ UPTIME: ${uptime}
+│ ◦ USERS: ${Object.keys(global.db.data.users).length}
+╰─┈─────────┈─╯
+
+╭─┈ ⟬ 🗡️ GENERAL ⟭ ┈─╮
+│ ◦ ${px}menu
+│ ◦ ${px}ping
+│ ◦ ${px}owner
+│ ◦ ${px}uptime
+│ ◦ ${px}reg
+│ ◦ ${px}clima
+│ ◦ ${px}sticker
+│ ◦ ${px}toimg
+╰─┈─────────┈─╯
+
+╭─┈ ⟬ 👑 GROUP CONTROL ⟭ ┈─╮
+│ ◦ ${px}kick
+│ ◦ ${px}add
+│ ◦ ${px}ban
+│ ◦ ${px}tagall
+│ ◦ ${px}grupinfo
+│ ◦ ${px}antilink
+│ ◦ ${px}warn
+│ ◦ ${px}welcome
+│ ◦ ${px}goodbye
+╰─┈─────────┈─╯
+
+╭─┈ ⟬ 🎴 PROFILE SYSTEM ⟭ ┈─╮
+│ ◦ ${px}perfil
+│ ◦ ${px}userinfo
+│ ◦ ${px}setbio
+│ ◦ ${px}casar
+│ ◦ ${px}divorcio
+│ ◦ ${px}adoptar
+╰─┈─────────┈─╯
+
+╭─┈ ⟬ 💴 ECONOMY ⟭ ┈─╮
+│ ◦ ${px}bal
+│ ◦ ${px}daily
+│ ◦ ${px}chamba
+│ ◦ ${px}dep
+│ ◦ ${px}retirar
+│ ◦ ${px}transferir
+│ ◦ ${px}robar
+│ ◦ ${px}top
+╰─┈─────────┈─╯
+
+╭─┈ ⟬ 🎲 GAMES ⟭ ┈─╮
+│ ◦ ${px}8ball
+│ ◦ ${px}dado
+│ ◦ ${px}ruleta
+│ ◦ ${px}trivia
+│ ◦ ${px}adivinanza
+╰─┈─────────┈─╯
+
+╭─┈ ⟬ ❤️ REACTIONS ⟭ ┈─╮
+│ ◦ ${px}kiss
+│ ◦ ${px}hug
+│ ◦ ${px}pat
+│ ◦ ${px}kill
+│ ◦ ${px}bite
+│ ◦ ${px}cry
+│ ◦ ${px}happy
+│ ◦ ${px}angry
+│ ◦ ${px}cuddle
+│ ◦ ${px}neko
+│ ◦ ${px}cafe
+│ ◦ ${px}dormir
+│ ◦ ${px}push
+╰─┈─────────┈─╯
+`
+
+    if (isOwner) {
+        menu += `
+
+╭─┈ ⟬ ☠️ OWNER PANEL ⟭ ┈─╮
+│ ◦ ${px}addpremium
+│ ◦ ${px}delpremium
+│ ◦ ${px}listpremium
+│ ◦ ${px}addowner
+│ ◦ ${px}delowner
+│ ◦ ${px}listowner
+╰─┈─────────┈─╯
+`
     }
+
+    menu += `
+
+╭─┈ ⟬ ⚫ ${protocol} ⟭ ┈─╮
+│
+│  “𝙄 𝙙𝙤𝙣’𝙩 𝙣𝙚𝙚𝙙 𝙨𝙤𝙧𝙘𝙚𝙧𝙮.”
+│
+│  ${developer} © 2026
+│
+╰─┈─────────┈─╯
+`.trim()
+
+    // ── SEND MENU ─────────────────────────────────────
+    await conn.sendMessage(m.chat, {
+        document: { url: banner },
+        mimetype: 'application/pdf',
+        fileName: '☠️ TOJI FUSHIGURO ☠️',
+        fileLength: 999999999999,
+        pageCount: 666,
+        caption: menu,
+        mentions: [m.sender],
+        contextInfo: {
+            externalAdReply: {
+                title: '𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎',
+                body: 'HEAVENLY RESTRICTION ACTIVE',
+                thumbnailUrl: banner,
+                mediaType: 1,
+                sourceUrl: newsletter,
+                renderLargerThumbnail: true
+            }
+        }
+    }, { quoted: m })
 }
 
 handler.command = ['menu', 'help', 'comandos']
+
 export default handler
