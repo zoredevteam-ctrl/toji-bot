@@ -3,49 +3,50 @@
     ESTILO: MERCENARIO
 */
 
-let handler = async (m, { conn, usedPrefix, isOwner, isAdmin, isPremium }) => {
+let handler = async (m, { conn, usedPrefix, isOwner, isAdmin, isPremium, db }) => {
     
-    const user = global.database.data.users[m.sender]
-    const name = user.name || m.pushName || 'Desconocido'
-    const role = isOwner ? global.roles.owner : (isAdmin ? global.roles.admin : global.roles.member)
+    // Accedemos a los usuarios usando 'db' que ya viene verificado desde el handler
+    const user = db.users[m.sender]
+    const name = user?.name || m.pushName || 'Desconocido'
     
-    const menuText = `⚔️  ──  ${global.botName}  ──  ⚔️
+    // Roles estéticos de Toji
+    const role = isOwner ? '👑 Amo del Clan Zenin' : (isAdmin ? '⚔️ Shinobi de Élite' : '👥 Mercenario')
+    
+    const menuText = `⚔️  ──  ᴛᴏᴊɪ ғᴜsʜɪɢᴜʀᴏ ᴍᴅ  ──  ⚔️
 
 Hola, *${name}*.
 El dinero mueve el mundo, no las maldiciones. 
 Aquí tienes mis servicios actuales:
 
-✦ [ 👤 PERFIL ]
+✦ [ 👤 ᴘᴇʀғɪʟ ]
   ➢ Rol: ${role}
-  ➢ Zenis: ${user.money || 0}
-  ➢ Nivel: ${user.level || 1}
+  ➢ Zenis: ${user?.money || 0}
+  ➢ Nivel: ${user?.level || 1}
 
-✦ [ ⚔️ MENÚ DE CONTRATOS ]
+✦ [ ⚔️ ᴍᴇɴᴜ́ ᴅᴇ ᴄᴏɴᴛʀᴀᴛᴏs ]
   ➢ ${usedPrefix}reg - Registrarse en el clan
   ➢ ${usedPrefix}perfil - Tu estado como mercenario
   ➢ ${usedPrefix}shop - Mercado negro (Zenis)
   ➢ ${usedPrefix}sticker - Conversión rápida
   ➢ ${usedPrefix}play - Buscar información (Música/Video)
 
-✦ [ 👑 COMANDOS DE CLAN (ADMINS) ]
+✦ [ 👑 ᴄᴏᴍᴀɴᴅᴏs ᴅᴇ ᴄʟᴀɴ (ᴀᴅᴍɪɴs) ]
   ➢ ${usedPrefix}kick - Expulsar no deseados
   ➢ ${usedPrefix}hidetag - Anuncio para el clan
   ➢ ${usedPrefix}setwelcome - Configurar entrada
 
-✦ [ 🔗 CANAL OFICIAL ]
-  ➢ Sígueme aquí: ${global.rcanal}
+✦ [ 🔗 ᴄᴀɴᴀʟ ᴏғɪᴄɪᴀʟ ]
+  ➢ Sígueme aquí: ${global.rcanal || 'https://whatsapp.com'}
 
 ──────────────────────────
 *El sistema está activo. No me hagas perder el tiempo.*`.trim()
 
     try {
-        // Obtenemos el banner y el contexto del newsletter
-        const thumb = await global.getBannerThumb()
-        const ctx = global.getNewsletterCtx(
-            thumb, 
-            '⚔️ SISTEMA DE CONTRATOS', 
-            'El asesino de hechiceros'
-        )
+        // Fallback seguro si las funciones de banner no existen aún en global
+        const thumb = typeof global.getBannerThumb === 'function' ? await global.getBannerThumb() : null
+        const ctx = typeof global.getNewsletterCtx === 'function' 
+            ? global.getNewsletterCtx(thumb, '⚔️ SISTEMA DE CONTRATOS', 'El asesino de hechiceros') 
+            : {}
 
         await conn.sendMessage(m.chat, { 
             text: menuText, 
@@ -53,7 +54,6 @@ Aquí tienes mis servicios actuales:
         }, { quoted: m })
 
     } catch (e) {
-        // Fallback simple si falla la imagen
         await m.reply(menuText)
     }
 }
