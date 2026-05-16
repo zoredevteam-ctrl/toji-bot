@@ -22,36 +22,36 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const pluginsDir = path.join(__dirname, 'plugins')
 global.conns = []
 
-// ─── LOGGER ───────────────────────────────────────────────────────────────────
+// ─── LOGGER TOJI STYLE ────────────────────────────────────────────────────────
 const log = {
-  info:    msg => console.log(chalk.bgCyan.black.bold('  INFO  ')   + ' ' + chalk.white(msg)),
-  success: msg => console.log(chalk.bgAnsi256(51).black.bold(' SUCCESS') + ' ' + chalk.cyanBright(msg)),
-  warn:    msg => console.log(chalk.bgYellow.black.bold('  WARN  ')  + ' ' + chalk.yellow(msg)),
-  error:   msg => console.log(chalk.bgRed.white.bold('  ERROR ')    + ' ' + chalk.redBright(msg))
+  info:    msg => console.log(chalk.bgHex('#4E5D6C').black.bold('  INFO  ')   + ' ' + chalk.white(msg)),
+  success: msg => console.log(chalk.bgHex('#8B5CF6').black.bold(' SUCCESS ') + ' ' + chalk.hex('#E2E8F0').bold(msg)),
+  warn:    msg => console.log(chalk.bgHex('#F59E0B').black.bold('  WARN  ')  + ' ' + chalk.yellow(msg)),
+  error:   msg => console.log(chalk.bgHex('#EF4444').white.bold('  ERROR ')    + ' ' + chalk.redBright(msg))
 }
 
-// ─── COLORES CELESTIAL ────────────────────────────────────────────────────────
-const c1 = chalk.hex('#A8D8FF')
-const c2 = chalk.hex('#6EC6FF')
-const c3 = chalk.hex('#3A8FD5')
-const c4 = chalk.hex('#C8E6FF')
-const cG = chalk.hex('#E0F7FF')
+// ─── PALETA MERCENARIA (TOJI FUSHIGURO) ────────────────────────────────────────
+const cSteel  = chalk.hex('#4E5D6C') // Gris Acero Oscuro
+const cSilver = chalk.hex('#E2E8F0') // Plata Brillante
+const cCurse  = chalk.hex('#8B5CF6') // Púrpura Energía Maldita
+const cBlood  = chalk.hex('#EF4444') // Rojo Restricción Celestial
+const cDark   = chalk.hex('#1F2937') // Carbón de fondo
 
-// ─── BANNER ───────────────────────────────────────────────────────────────────
-const maiBanner = `
-${c3('╔══════════════════════════════════════════════╗')}
-${c3('║')}                                              ${c3('║')}
-${c3('║')}  ${c2('██╗  ██╗██╗██████╗ ██╗   ██╗██╗  ██╗ █████╗')}  ${c3('║')}
-${c3('║')}  ${c2('██║  ██║██║██╔══██╗██║   ██║██║ ██╔╝██╔══██╗')} ${c3('║')}
-${c3('║')}  ${c2('███████║██║██████╔╝██║   ██║█████╔╝ ███████║')}  ${c3('║')}
-${c3('║')}  ${c2('██╔══██║██║██╔══██╗██║   ██║██╔═██╗ ██╔══██║')} ${c3('║')}
-${c3('║')}  ${c1('██║  ██║██║██║  ██║╚██████╔╝██║  ██╗██║  ██║')} ${c3('║')}
-${c3('║')}  ${c1('╚═╝  ╚═╝╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝')}${c3('║')}
-${c3('║')}                                              ${c3('║')}
-${c3('║')}  ${c4('✦ ──── ✧ ── C E L E S T I A L  M D ── ✧ ──── ✦')}${c3('║')}
-${c3('║')}  ${cG.bold('  ˚₊· ͟͟͞͞  H I R U K A  |  Z0RT SYSTEMS        ')}  ${c3('║')}
-${c3('║')}  ${chalk.gray('  Version: ' + (global.botVersion || '1.0.0') + '  |  Premium Owner Edition   ')}  ${c3('║')}
-${c3('╚══════════════════════════════════════════════╝')}
+// ─── BANNER PREMIUM AKIRAX ────────────────────────────────────────────────────
+const tojiBanner = `
+${cSteel('┌──────────────────────────────────────────────────────────────┐')}
+${cSteel('│')}  ${cCurse('████████╗ ██████╗  ██████╗██╗')}                                ${cSteel('│')}
+${cSteel('│')}  ${cCurse('╚══██╔══╝██╔═══██╗     ██║██║')}                                ${cSteel('│')}
+${cSteel('│')}  ${cSilver('   ██║   ██║   ██║     ██║██║')}   ${cBlood('M E R C E N A R Y')}          ${cSteel('│')}
+${cSteel('│')}  ${cSilver('   ██║   ██║   ██║██   ██║██║')}   ${cSilver('S Y S T E M')}              ${cSteel('│')}
+${cSteel('│')}  ${cSteel('   ██║   ╚██████╔╝╚█████╔╝██║')}                                ${cSteel('│')}
+${cSteel('│')}  ${cSteel('   ╚═╝    ╚═════╝  ╚════╝ ╚═╝')}                                ${cSteel('│')}
+${cSteel('│')}                                                              ${cSteel('│')}
+${cSteel('│')}  ${cSilver('⚔️  F U S H I G U R O   M U L T I D E V I C E   E D I T I O N')}   ${cSteel('│')}
+${cSteel('│')}  ${cSteel('──────────────────────────────────────────────────────────────')} ${cSteel('│')}
+${cSteel('│')}  ${cSilver.bold('  ˚₊· ͟͟͞͞  A D R I E N  |  Z0RT SYSTEMS        ')}                  ${cSteel('│')}
+${cSteel('│')}  ${chalk.gray('  Version: ' + (global.botVersion || '1.0.0') + '  |  Sorcerer Killer Core     ')}         ${cSteel('│')}
+${cSteel('└──────────────────────────────────────────────────────────────┘')}
 `
 
 // ─── CARGA DE PLUGINS ─────────────────────────────────────────────────────────
@@ -91,15 +91,15 @@ async function startBot() {
 
   if (!methodCodeQR && !methodCode && !state.creds.registered && !opcion) {
     console.clear()
-    console.log(maiBanner)
-    console.log(chalk.bold.hex('#6EC6FF')('✦ SELECCIONA TU METODO DE VINCULACION:\n'))
-    console.log(chalk.hex('#A8D8FF')('   [ 1 ]') + chalk.white(' Codigo QR'))
-    console.log(chalk.hex('#A8D8FF')('   [ 2 ]') + chalk.white(' Codigo de 8 digitos'))
-    opcion = readlineSync.question(chalk.bold.yellow('\n ─── ✦ Elige una opcion (1 o 2): ')).trim()
+    console.log(tojiBanner)
+    console.log(cCurse.bold('✦ SELECCIONA TU MÉTODO DE VINCULACIÓN:\n'))
+    console.log(cSteel('   [ 1 ]') + cSilver(' Código QR'))
+    console.log(cSteel('   [ 2 ]') + cSilver(' Código de 8 dígitos'))
+    opcion = readlineSync.question(chalk.bold.yellow('\n ─── ✦ Elige una opción (1 o 2): ')).trim()
 
     if (opcion === '2') {
       phoneNumber = readlineSync
-        .question(chalk.hex('#6EC6FF')('\n ✦ Ingresa tu numero (ej: 57310...): '))
+        .question(cCurse('\n ✦ Ingresa tu número (ej: 57310...): '))
         .replace(/\D/g, '')
     }
   }
@@ -115,7 +115,7 @@ async function startBot() {
     },
     markOnlineOnConnect:            true,
     generateHighQualityLinkPreview: true,
-    getMessage: async () => ({ conversation: 'Hiruka Celestial MD.' })
+    getMessage: async () => ({ conversation: 'Toji Fushiguro Core System.' })
   })
 
   global.conn = conn
@@ -134,27 +134,27 @@ async function startBot() {
         const code      = await conn.requestPairingCode(phoneNumber)
         const formatted = code?.match(/.{1,4}/g)?.join('-') || code
         console.log(
-          chalk.bgHex('#3A8FD5').black.bold('\n ✦ TU CODIGO: ') +
+          chalk.bgHex('#8B5CF6').black.bold('\n ✦ TU CÓDIGO: ') +
           chalk.bgBlack.white.bold(` ${formatted} `) +
           '\n'
         )
       } catch (e) {
-        log.error(`No se pudo obtener el codigo: ${e.message}`)
+        log.error(`No se pudo obtener el código: ${e.message}`)
       }
     }, 3000)
   }
 
-  // ─── EVENTO: CONEXION ─────────────────────────────────────────────────────
+  // ─── EVENTO: CONEXIÓN ─────────────────────────────────────────────────────
   conn.ev.on('connection.update', async update => {
     const { qr, connection, lastDisconnect } = update
 
     if (qr && (opcion === '1' || methodCodeQR)) {
-      console.log(chalk.hex('#6EC6FF')('\n ✦ Escanea este codigo QR:'))
+      console.log(cCurse('\n ✦ Escanea este código QR:'))
       qrcode.generate(qr, { small: true })
     }
 
     if (connection === 'open') {
-      log.success(`Online: ${conn.user?.name || 'Hiruka Celestial MD'} ✓`)
+      log.success(`Online: ${conn.user?.name || 'Toji Fushiguro Bot'} ✓`)
     }
 
     if (connection === 'close') {
@@ -162,10 +162,10 @@ async function startBot() {
       const reason     = lastDisconnect?.error?.message || 'Desconocido'
 
       if (statusCode !== DisconnectReason.loggedOut) {
-        log.warn(`Reconectando... (razon: ${reason})`)
+        log.warn(`Reconectando... (razón: ${reason})`)
         startBot()
       } else {
-        log.error('Sesion cerrada. Borra la carpeta Sessions para re-vincular.')
+        log.error('Sesión cerrada. Borra la carpeta Sessions para re-vincular.')
       }
     }
   })
