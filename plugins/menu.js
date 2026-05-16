@@ -39,7 +39,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
     ].filter(Boolean).includes(m.sender)
 
     let menu = `
-╭─┈ ⟬ ☠️ ⟭ ┈─╮
+*╭╼𝅄꒰𑁍⃪࣭۪ٜ݊݊݊݊݊໑ٜ࣪ ꒱ 𐔌 𝐓𝐎𝐉𝐈  𐦯*
 │
 │  𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎
 │  ${version}
@@ -48,21 +48,25 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 
 > “𝚃𝚑𝚎 𝚘𝚗𝚎 𝚠𝚑𝚘 𝚕𝚎𝚏𝚝 𝚒𝚝 𝚊𝚕𝚕 𝚋𝚎𝚑𝚒𝚗𝚍...”
 
-╭─┈ ⟬ 👤 USER STATUS ⟭ ┈─╮
+> ꒰⌢ ʚ˚₊‧ ✎ ꒱ INFO:
+- ${nombreBot} es un bot privado, el cual el bot principal no se unirá a tus grupos. Si quieres tener el bot en tu grupo tienes que ser Sub-Bot con *(#code)*
+> ꒰⌢ ʚ˚₊‧ ✎ ꒱ ❐ ʚ˚₊‧ʚ˚₊‧ʚ˚
+
+*╭╼𝅄꒰𑁍⃪࣭۪ٜ݊݊݊݊݊໑ٜ࣪ ꒱ 𐔌 INFO - USER 𐦯*
 │ ◦ USER: @${m.sender.split('@')[0]}
 │ ◦ LEVEL: ${level}
 │ ◦ EXP: ${exp.toLocaleString()}
 │ ◦ YEN: ${money.toLocaleString()}
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
-╭─┈ ⟬ ⚔️ SYSTEM INFO ⟭ ┈─╮
+*╭╼𝅄꒰𑁍⃪࣭۪ٜ݊݊݊݊݊໑ٜ࣪ ꒱ 𐔌 BOT - INFO 𐦯*
 │ ◦ SPEED: ${speed} MS
 │ ◦ RAM: ${usedRam}MB / ${totalRam}GB
 │ ◦ UPTIME: ${uptime}
 │ ◦ USERS: ${totalUsers}
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
-╭─┈ ⟬ 🗡️ GENERAL ⟭ ┈─╮
+*꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 General 𐦯*
 │ ◦ ${px}menu
 │ ◦ ${px}ping
 │ ◦ ${px}owner
@@ -73,7 +77,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ ${px}toimg
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
-╭─┈ ⟬ 👑 GROUP CONTROL ⟭ ┈─╮
+*꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 Grupos 𐦯*
 │ ◦ ${px}kick
 │ ◦ ${px}add
 │ ◦ ${px}ban
@@ -85,7 +89,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ ${px}goodbye
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
-╭─┈ ⟬ 🎴 PROFILE SYSTEM ⟭ ┈─╮
+*꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 Perfil 𐦯*
 │ ◦ ${px}perfil
 │ ◦ ${px}userinfo
 │ ◦ ${px}setbio
@@ -94,7 +98,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ ${px}adoptar
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
-╭─┈ ⟬ 💴 ECONOMY ⟭ ┈─╮
+*꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 economy 𐦯*
 │ ◦ ${px}bal
 │ ◦ ${px}daily
 │ ◦ ${px}chamba
@@ -105,7 +109,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ ${px}top
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
-╭─┈ ⟬ 🎲 GAMES ⟭ ┈─╮
+*꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 Games 𐦯*
 │ ◦ ${px}8ball
 │ ◦ ${px}dado
 │ ◦ ${px}ruleta
@@ -113,7 +117,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ ${px}adivinanza
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
-╭─┈ ⟬ ❤️ REACTIONS ⟭ ┈─╮
+*꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 REACTIONS 𐦯*
 │ ◦ ${px}kiss
 │ ◦ ${px}hug
 │ ◦ ${px}pat
@@ -132,7 +136,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 
     if (isOwner) {
         menu += `
-╭─┈ ⟬ ☠️ OWNER PANEL ⟭ ┈─╮
+*╭╼𝅄꒰𑁍⃪࣭۪ٜ݊݊݊݊݊໑ٜ࣪ ꒱ 𐔌 OWNER 𐦯*
 │ ◦ ${px}addpremium
 │ ◦ ${px}delpremium
 │ ◦ ${px}listpremium
@@ -144,7 +148,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
     }
 
     menu += `
-╭─┈ ⟬ ⚫ ${protocol} ⟭ ┈─╮
+> ꒰⌢ ʚ˚₊‧ ✎ ꒱ TOJI:
 │
 │  “𝙄 𝙙𝙤𝙣’𝙩 𝙣𝙚𝙚𝙙 𝙨𝙤𝙧𝙘𝙚𝙧𝙮.”
 │
@@ -156,7 +160,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
     await conn.sendMessage(m.chat, {
         document: { url: banner },
         mimetype: 'application/pdf',
-        fileName: '☠️ TOJI FUSHIGURO ☠️',
+        fileName: ' TOJI FUSHIGURO ',
         fileLength: 999999999999,
         pageCount: 1,
         caption: menu,
