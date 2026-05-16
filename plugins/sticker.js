@@ -20,8 +20,11 @@ function ffRun(args) {
 
 const sendStyled = async (conn, m, text) => {
     try {
-        const r     = await fetch(global.icono || global.banner || '')
-        const thumb = r.ok ? Buffer.from(await r.arrayBuffer()) : null
+        // Obtenemos un icono completamente aleatorio de tus settings
+        let iconUrl = typeof global.getRandomIconoToji === 'function' 
+            ? global.getRandomIconoToji() 
+            : (global.icono || global.banner || '')
+
         return conn.sendMessage(m.chat, {
             text,
             contextInfo: {
@@ -32,10 +35,10 @@ const sendStyled = async (conn, m, text) => {
                     newsletterName:  global.newsletterName
                 },
                 externalAdReply: {
-                    title:                 global.botName || '𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎',
-                    body:                  '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍 𝐀𝐂𝐓𝐈𝐕𝐄',
+                    title:                 '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍',
+                    body:                  'Asesino de Hechiceros',
                     mediaType:             1,
-                    thumbnail:             thumb,
+                    thumbnailUrl:          iconUrl, // Corregido para evitar el cuadro negro
                     renderLargerThumbnail: false,
                     sourceUrl:             global.rcanal || ''
                 }
@@ -118,14 +121,14 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
                 if (texto) {
                     packname = texto
-                    author   = global.botName || '𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎'
+                    author   = '𝕿𝖔𝖏𝖎 𝖋𝖚𝖘𝖍𝖎𝖌𝖚𝖗ο 🩸'
                 } else {
                     const now     = new Date()
                     const fecha   = now.toLocaleDateString('es-ES', { day: 'numeric', month: 'numeric', year: 'numeric' })
                     const hora    = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
                     const usuario = m.pushName || m.sender.split('@')[0]
                     const grupo   = m.isGroup ? (await conn.groupMetadata(m.chat).catch(() => ({}))).subject || m.chat : 'MD'
-                    packname = `🩸 Usuario: ${usuario}\n🩸 Bot: ${global.botName || '𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎'}\n🩸 Fecha: ${fecha}`
+                    packname = `🩸 Usuario: ${usuario}\n🩸 Bot: 𝕿𝖔𝖏𝖎 𝖋𝖚𝖘𝖍𝖎𝖌𝖚𝖗ο\n🩸 Fecha: ${fecha}`
                     author   = `${hora} • ${grupo}`
                 }
 
@@ -139,7 +142,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
             )
 
             await m.react('🩸')
-            const texto = args.join(' ').trim() || global.botName || '𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎'
+            const texto = args.join(' ').trim() || '𝕿𝖔𝖏𝖎 𝖋𝖚𝖘𝖍𝖎𝖌𝖚𝖗ο 🩸'
             const out   = await addWatermarkImg(buf, texto)
             await conn.sendMessage(m.chat, { image: out, caption: '> 🩸 *“I don’t need sorcery.”*' }, { quoted: m })
             return await m.react('✅')
@@ -149,9 +152,16 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
             await m.react('🩸')
             const img = await downloadMediaMessage(q, 'buffer', {}, { logger: console, reuploadRequest: conn.updateMediaMessage })
             if (!img) throw new Error('No se pudo leer el material.')
-            stiker = await sticker(img, false, global.packname || '𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎', global.author || '˚₊· ͟͟͞͞  ɪ ᴀᴍ  Aᴅʀɪᴇɴ')
+            
+            // Corregido para usar las variables correctas de tu settings.js si no existen las globales default
+            let pName = global.packname || '𝕿𝖔𝖏𝖎 𝖋𝖚𝖘𝖍𝖎𝖌𝖚𝖗ο 🩸'
+            let pAuth = global.author || global.ownerName || 'Adrien | Amo del Clan'
+            
+            stiker = await sticker(img, false, pName, pAuth)
         } else if (args[0] && /https?:\/\//.test(args[0])) {
-            stiker = await sticker(false, args[0], global.packname, global.author)
+            let pName = global.packname || '𝕿𝖔𝖏𝖎 𝖋𝖚𝖘𝖍𝖎𝖌𝖚𝖗ο 🩸'
+            let pAuth = global.author || global.ownerName || 'Adrien | Amo del Clan'
+            stiker = await sticker(false, args[0], pName, pAuth)
         } else {
             return sendStyled(conn, m,
                 `> 🩸 *[ MATERIAL INVÁLIDO ]*\n> *Responde a una imagen, video o envía un enlace directo.*`
