@@ -9,6 +9,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
     const developer = '𝐙𝟎𝐑𝐓 𝐒𝐘𝐒𝐓𝐄𝐌𝐒'
     const protocol = '𝐒𝐎𝐑𝐂𝐄𝐑𝐄𝐑 𝐊𝐈𝐋𝐋𝐄𝐑'
 
+    // ── GLOBALS ───────────────────────────────────────
     const banner = global.banner || 'https://causas-files.vercel.app/fl/jwlr.jpg'
     const canal = global.rcanal || 'https://whatsapp.com'
     const newsletter = global.newstter || canal
@@ -16,8 +17,13 @@ const handler = async (m, { conn, usedPrefix: px }) => {
     // ── PERFORMANCE ───────────────────────────────────
     const speed = performance.now().toFixed(4)
 
-    const usedRam = (process.memoryUsage().rss / 1024 / 1024).toFixed(1)
-    const totalRam = (os.totalmem() / 1024 / 1024 / 1024).toFixed(0)
+    const usedRam = (
+        process.memoryUsage().rss / 1024 / 1024
+    ).toFixed(1)
+
+    const totalRam = (
+        os.totalmem() / 1024 / 1024 / 1024
+    ).toFixed(0)
 
     const uptime = ((seconds) => {
         const d = Math.floor(seconds / 86400)
@@ -27,19 +33,25 @@ const handler = async (m, { conn, usedPrefix: px }) => {
     })(process.uptime())
 
     // ── USER DATA ─────────────────────────────────────
-    const user = global.db.data.users[m.sender] || {}
+    const user = global?.db?.data?.users?.[m.sender] || {}
+
     const {
         level = 1,
         exp = 0,
         money = 0
     } = user
 
+    const totalUsers = Object.keys(
+        global?.db?.data?.users || {}
+    ).length
+
+    // ── OWNER CHECK ───────────────────────────────────
     const isOwner = [
         conn.user.jid,
-        ...global.owner.map(v => v[0] + '@s.whatsapp.net')
+        ...(global.owner || []).map(v => v[0] + '@s.whatsapp.net')
     ].includes(m.sender)
 
-    // ── MENU STYLE ────────────────────────────────────
+    // ── MENU ──────────────────────────────────────────
     let menu = `
 ╭─┈ ⟬ ☠️ ⟭ ┈─╮
 │
@@ -61,7 +73,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ SPEED: ${speed} MS
 │ ◦ RAM: ${usedRam}MB / ${totalRam}GB
 │ ◦ UPTIME: ${uptime}
-│ ◦ USERS: ${Object.keys(global.db.data.users).length}
+│ ◦ USERS: ${totalUsers}
 ╰─┈─────────┈─╯
 
 ╭─┈ ⟬ 🗡️ GENERAL ⟭ ┈─╮
@@ -132,6 +144,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 ╰─┈─────────┈─╯
 `
 
+    // ── OWNER PANEL ──────────────────────────────────
     if (isOwner) {
         menu += `
 
@@ -168,10 +181,10 @@ const handler = async (m, { conn, usedPrefix: px }) => {
         mentions: [m.sender],
         contextInfo: {
             externalAdReply: {
-                title: '𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎',
+                title: botName,
                 body: 'HEAVENLY RESTRICTION ACTIVE',
-                thumbnailUrl: banner,
                 mediaType: 1,
+                thumbnailUrl: banner,
                 sourceUrl: newsletter,
                 renderLargerThumbnail: true
             }
