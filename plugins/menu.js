@@ -7,12 +7,12 @@ const handler = async (m, { conn, usedPrefix: px }) => {
     const developer = '𝐙𝟎𝐑𝐓 𝐒𝐘𝐒𝐓𝐄𝐌𝐒'
     const protocol = '𝐒𝐎𝐑𝐂𝐄𝐑𝐄𝐑 𝐊𝐈𝐋𝐋𝐄𝐑'
 
-    const banner = global.banner
+    const banner = global.banner || 'https://causas-files.vercel.app/fl/jwlr.jpg'
     const canal = global.rcanal || 'https://whatsapp.com'
     const newsletter = global.newstter || canal
 
-    const t0 = performance.now()
-    const speed = (performance.now() - t0).toFixed(4)
+    const start = performance.now()
+    const speed = (performance.now() - start).toFixed(4)
 
     const usedRam = (process.memoryUsage().rss / 1024 / 1024).toFixed(1)
     const totalRam = (os.totalmem() / 1024 / 1024 / 1024).toFixed(0)
@@ -34,9 +34,9 @@ const handler = async (m, { conn, usedPrefix: px }) => {
     const totalUsers = Object.keys(global?.db?.data?.users || {}).length
 
     const isOwner = [
-        conn.user.jid,
+        conn.user?.jid,
         ...(global.owner || []).map(v => v[0] + '@s.whatsapp.net')
-    ].includes(m.sender)
+    ].filter(Boolean).includes(m.sender)
 
     let menu = `
 ╭─┈ ⟬ ☠️ ⟭ ┈─╮
@@ -132,7 +132,6 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 
     if (isOwner) {
         menu += `
-
 ╭─┈ ⟬ ☠️ OWNER PANEL ⟭ ┈─╮
 │ ◦ ${px}addpremium
 │ ◦ ${px}delpremium
@@ -145,7 +144,6 @@ const handler = async (m, { conn, usedPrefix: px }) => {
     }
 
     menu += `
-
 ╭─┈ ⟬ ⚫ ${protocol} ⟭ ┈─╮
 │
 │  “𝙄 𝙙𝙤𝙣’𝙩 𝙣𝙚𝙚𝙙 𝙨𝙤𝙧𝙘𝙚𝙧𝙮.”
@@ -156,7 +154,11 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 `.trim()
 
     await conn.sendMessage(m.chat, {
-        image: { url: banner },
+        document: { url: banner },
+        mimetype: 'application/pdf',
+        fileName: '☠️ TOJI FUSHIGURO ☠️',
+        fileLength: 999999999999,
+        pageCount: 1,
         caption: menu,
         mentions: [m.sender],
         contextInfo: {
