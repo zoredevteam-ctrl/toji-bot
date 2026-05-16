@@ -2,28 +2,20 @@ import { performance } from 'perf_hooks'
 import os from 'os'
 
 const handler = async (m, { conn, usedPrefix: px }) => {
-
-    // ── TOJI FUSHIGURO SYSTEM ─────────────────────────
     const botName = '𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎'
     const version = '𝙃𝙀𝘼𝙑𝙀𝙉𝙇𝙔 𝙍𝙀𝙎𝙏𝙍𝙄𝘾𝙏𝙄𝙊𝙉'
     const developer = '𝐙𝟎𝐑𝐓 𝐒𝐘𝐒𝐓𝐄𝐌𝐒'
     const protocol = '𝐒𝐎𝐑𝐂𝐄𝐑𝐄𝐑 𝐊𝐈𝐋𝐋𝐄𝐑'
 
-    // ── GLOBALS ───────────────────────────────────────
-    const banner = global.banner || 'https://causas-files.vercel.app/fl/jwlr.jpg'
+    const banner = global.banner
     const canal = global.rcanal || 'https://whatsapp.com'
     const newsletter = global.newstter || canal
 
-    // ── PERFORMANCE ───────────────────────────────────
-    const speed = performance.now().toFixed(4)
+    const t0 = performance.now()
+    const speed = (performance.now() - t0).toFixed(4)
 
-    const usedRam = (
-        process.memoryUsage().rss / 1024 / 1024
-    ).toFixed(1)
-
-    const totalRam = (
-        os.totalmem() / 1024 / 1024 / 1024
-    ).toFixed(0)
+    const usedRam = (process.memoryUsage().rss / 1024 / 1024).toFixed(1)
+    const totalRam = (os.totalmem() / 1024 / 1024 / 1024).toFixed(0)
 
     const uptime = ((seconds) => {
         const d = Math.floor(seconds / 86400)
@@ -32,26 +24,20 @@ const handler = async (m, { conn, usedPrefix: px }) => {
         return `${d}D ${h}H ${m}M`
     })(process.uptime())
 
-    // ── USER DATA ─────────────────────────────────────
     const user = global?.db?.data?.users?.[m.sender] || {}
-
     const {
         level = 1,
         exp = 0,
         money = 0
     } = user
 
-    const totalUsers = Object.keys(
-        global?.db?.data?.users || {}
-    ).length
+    const totalUsers = Object.keys(global?.db?.data?.users || {}).length
 
-    // ── OWNER CHECK ───────────────────────────────────
     const isOwner = [
         conn.user.jid,
         ...(global.owner || []).map(v => v[0] + '@s.whatsapp.net')
     ].includes(m.sender)
 
-    // ── MENU ──────────────────────────────────────────
     let menu = `
 ╭─┈ ⟬ ☠️ ⟭ ┈─╮
 │
@@ -144,7 +130,6 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 ╰─┈─────────┈─╯
 `
 
-    // ── OWNER PANEL ──────────────────────────────────
     if (isOwner) {
         menu += `
 
@@ -170,13 +155,8 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 ╰─┈─────────┈─╯
 `.trim()
 
-    // ── SEND MENU ─────────────────────────────────────
     await conn.sendMessage(m.chat, {
-        document: { url: banner },
-        mimetype: 'application/pdf',
-        fileName: '☠️ TOJI FUSHIGURO ☠️',
-        fileLength: 999999999999,
-        pageCount: 666,
+        image: { url: banner },
         caption: menu,
         mentions: [m.sender],
         contextInfo: {
