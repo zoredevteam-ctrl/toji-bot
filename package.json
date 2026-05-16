@@ -1,7 +1,7 @@
 {
-  "name": "hiruka-celestial-md",
+  "name": "toji-fushiguro-md",
   "version": "1.0.0",
-  "description": "WhatsApp Bot Premium — Hiruka Celestial MD Edition",
+  "description": "WhatsApp Bot Premium — Toji Fushiguro Mercenary Edition",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -25,6 +25,6 @@
     "lodash": "^4.17.21",
     "fs-extra": "^11.2.0"
   },
-  "author": "Aarom",
+  "author": "Adrien",
   "license": "MIT"
 }
