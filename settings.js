@@ -48,7 +48,7 @@ global.iconosToji = [
   'https://upload.yotsuba.giize.com/u/piI2v8gs.png',
   'https://upload.yotsuba.giize.com/u/usI7bQPP.png',
   'https://upload.yotsuba.giize.com/u/lEyi2QOg.png',
-  'https://i.pinimg.com/736x/f0/a1/b2/f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5.jpg'
+  'https://upload.yotsuba.giize.com/u/25m4q8ds.png'
 ]
 
 global.getRandomIconoToji = () => global.iconosToji[Math.floor(Math.random() * global.iconosToji.length)]
