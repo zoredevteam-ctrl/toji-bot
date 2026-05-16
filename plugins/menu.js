@@ -7,7 +7,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
     const developer = '𝐙𝟎𝐑𝐓 𝐒𝐘𝐒𝐓𝐄𝐌𝐒'
     const protocol = '𝐒𝐎𝐑𝐂𝐄𝐑𝐄𝐑 𝐊𝐈𝐋𝐋𝐄𝐑'
 
-    const banner = global.banner = 'https://files.catbox.moe/ktolbv.png'
+    const banner = global.banner = 'https://upload.yotsuba.giize.com/u/Uj1apzmd.jpg'
     const canal = global.rcanal || 'https://whatsapp.com'
     const newsletter = global.newstter || canal
 
