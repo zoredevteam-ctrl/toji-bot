@@ -4,12 +4,12 @@ import os from 'os'
 const handler = async (m, { conn, usedPrefix: px }) => {
     const botName = '𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎'
     const version = '𝙃𝙀𝘼𝙑𝙀𝙉𝙇𝙔 𝙍𝙀𝙎𝙏𝙍𝙄𝘾𝙏𝙄𝙊𝙉'
-    const developer = '𝐙𝟎𝐑𝐓 𝐒𝐘𝐒𝐓𝐄𝐌𝐒'
-    const protocol = '𝐒𝐎𝐑𝐂𝐄𝐑𝐄𝐑 𝐊𝐈𝐋𝐋𝐄𝐑'
+    const developer = 'AAROM & FÉLIX'
+    const protocol = '𝐒𝐎𝐑𝐂𝐄𝐑𝐄𝐑 𝐊𝐈𝐋𝐋𝐄Ｒ'
 
     const banner = global.banner = 'https://upload.yotsuba.giize.com/u/Uj1apzmd.jpg'
     const canal = global.rcanal || 'https://whatsapp.com'
-    const newsletter = global.newstter || canal
+    const newsletter = global.newsletter || canal
 
     const start = performance.now()
     const speed = (performance.now() - start).toFixed(4)
@@ -41,7 +41,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
     let menu = `
 *╭╼𝅄꒰𑁍⃪࣭۪ٜ݊݊݊݊݊໑ٜ࣪ ꒱ 𐔌 𝐓𝐎𝐉𝐈  𐦯*
 │
-│  𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎
+│  ${botName}
 │  ${version}
 │
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
@@ -49,7 +49,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 > “𝚃𝚑𝚎 𝚘𝚗𝚎 𝚠𝚑𝚘 𝚕𝚎𝚏𝚝 𝚒𝚝 𝚊𝚕𝚕 𝚋𝚎𝚑𝚒𝚗𝚍...”
 
 > ꒰⌢ ʚ˚₊‧ ✎ ꒱ INFO:
-- ${nombreBot} es un bot privado, el cual el bot principal no se unirá a tus grupos. Si quieres tener el bot en tu grupo tienes que ser Sub-Bot con *(#code)*
+- ${botName} es un bot privado, el cual el bot principal no se unirá a tus grupos. Si quieres tener el bot en tu grupo tienes que ser Sub-Bot con *(#code)*
 > ꒰⌢ ʚ˚₊‧ ✎ ꒱ ❐ ʚ˚₊‧ʚ˚₊‧ʚ˚
 
 *╭╼𝅄꒰𑁍⃪࣭۪ٜ݊݊݊݊݊໑ٜ࣪ ꒱ 𐔌 INFO - USER 𐦯*
@@ -87,7 +87,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ ${px}warn
 │ ◦ ${px}welcome
 │ ◦ ${px}goodbye
-╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
+╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─︩Ḫ๋─╯
 
 *꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 Perfil 𐦯*
 │ ◦ ${px}perfil
