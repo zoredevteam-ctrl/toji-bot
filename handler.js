@@ -72,8 +72,15 @@ const similarity = (a, b) => {
 
 const tojiReply = async (conn, m, txt) => {
     try {
-        const thumb = await global.getIconThumb?.() || null;
-        const ctx   = global.getNewsletterCtx?.(thumb, '⚔️ TOJI FUSHIGURO', 'El asesino de hechiceros') || {};
+        let iconUrl = '';
+        if (Array.isArray(global.icono)) {
+            iconUrl = global.icono[Math.floor(Math.random() * global.icono.length)];
+        } else {
+            iconUrl = global.icono || global.banner || '';
+        }
+        const r = await fetch(iconUrl);
+        const thumb = r.ok ? Buffer.from(await r.arrayBuffer()) : null;
+        const ctx   = global.getNewsletterCtx?.(thumb, '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍', 'Asesino de Hechiceros') || {};
         await conn.sendMessage(m.chat, { text: txt, contextInfo: ctx }, { quoted: m });
     } catch {
         try { await m.reply(txt); } catch {}
@@ -81,9 +88,8 @@ const tojiReply = async (conn, m, txt) => {
 };
 
 const box = (title, lines) =>
-    `⚔️  ──  T O J I  F U S H I G U R O  ──  ⚔️\n\n` +
-    `✦ [ ${title} ]\n` +
-    lines.map(l => `  ➢ ${l}`).join('\n');
+    `> 🩸 *[ ${title} ]*\n` +
+    lines.map(l => `> *${l}*`).join('\n');
 
 const eventsLoadedFor = new WeakSet();
 
@@ -214,7 +220,6 @@ export const handler = async (m, conn, plugins) => {
         const isROwner = isRootOwnerJid(senderJid);
         const isOwner  = isROwner || isOwnerJid(senderJid);
 
-        // ── AQUÍ SE BUSCA EL COMANDO CORRECTAMENTE ANTES DE USAR 'cmd' ────────
         let cmd = null;
 
         if (prefix === '$') {
@@ -249,10 +254,10 @@ export const handler = async (m, conn, plugins) => {
                 .sort((a, b) => b.score - a.score)
                 .slice(0, 3);
 
-            let txt = `⚔️  ──  T O J I  F U S H I G U R O  ──  ⚔️\n\n✦ [ TRABAJO NO ENCONTRADO ]\n  ➢ El comando *${prefix + commandName}* no existe.\n  ➢ No me hagas perder el tiempo con cosas que no sé hacer.`;
+            let txt = `> 🩸 *[ TRABAJO INVÁLIDO ]*\n> *El comando ${prefix + commandName} no existe. No me hagas perder el tiempo con estupideces.*`;
 
             if (similares.length) {
-                txt += `\n\n✦ [ ¿INTENTABAS BUSCAR ESTO? ]\n` + similares.map(s => `  ➢ ${prefix + s.cmd}`).join('\n');
+                txt += `\n\n> 🩸 *[ ENCARGOS PARECIDOS ]*\n` + similares.map(s => `> *${prefix + s.cmd}*`).join('\n');
             }
 
             return tojiReply(conn, m, txt);
@@ -320,55 +325,54 @@ export const handler = async (m, conn, plugins) => {
             }
         }
 
-        // ── VALIDACIONES DE PERMISOS COHERENTES ─────────────────────────────────
         if (isGroup && database.data.groups[m.chat]?.modoadmin && !isAdmin && !isOwner) {
-            return tojiReply(conn, m, box('RESTRICCIÓN', ['Solo gente con autoridad aquí. Vuelve cuando seas admin.']));
+            return tojiReply(conn, m, box('RESTRICCIÓN', ['Este lugar está bajo un régimen estricto. Vuelve cuando tengas poder aquí.']));
         }
 
         if (database.data.settings?.modoowner && !isOwner) {
-            return tojiReply(conn, m, box('SISTEMA BLOQUEADO', ['Estoy ocupado. Solo acepto órdenes de mi jefe.']));
+            return tojiReply(conn, m, box('CONTRATO EXCLUSIVO', ['Estoy bajo un encargo privado en este momento. No me busques.']));
         }
 
         if (database.data.users[senderJid]?.banned && !isOwner) {
-            return tojiReply(conn, m, box('VETADO', ['Estás en mi lista negra. No me busques.']));
+            return tojiReply(conn, m, box('OBJETIVO VETADO', ['Estás en mi lista negra. No hago tratos con escoria.']));
         }
 
         if (cmd.rowner && !isROwner) {
-            return tojiReply(conn, m, box('ACCESO DENEGADO', ['Ese nivel de autoridad no está a tu alcance.']));
+            return tojiReply(conn, m, box('ACCESO DENEGADO', ['Esa orden está fuera de tu presupuesto. Solo mi programador manda aquí.']));
         }
 
         if (cmd.owner && !isOwner) {
-            return tojiReply(conn, m, box('ACCESO DENEGADO', ['No eres mi jefe. No pierdas mi tiempo.']));
+            return tojiReply(conn, m, box('ACCESO DENEGADO', ['No eres mi jefe ni me estás pagando lo suficiente. Desaparece.']));
         }
 
         if (cmd.premium && !isPremium) {
-            return tojiReply(conn, m, box('PAGO REQUERIDO', ['Este servicio no es gratis. Paga la suscripción.']));
+            return tojiReply(conn, m, box('PAGO REQUERIDO', ['No me muevo gratis. Consigue una suscripción Premium si quieres que use mis armas.']));
         }
 
         if (cmd.register && !isRegistered) {
-            return tojiReply(conn, m, box('IDENTIDAD DESCONOCIDA', ['¿Quién eres? Regístrate antes de pedir favores.']));
+            return tojiReply(conn, m, box('IDENTIDAD REQUERIDA', ['¿Y tú quién eres? No hago favores a desconocidos. Regístrate primero.']));
         }
 
         if (cmd.group && !isGroup) {
-            return tojiReply(conn, m, box('ENTORNO', ['Esto no es un grupo. Hazlo en un chat grupal.']));
+            return tojiReply(conn, m, box('ENTORNO INCORRECTO', ['Este encargo requiere un grupo entero para ejecutarse. Muévete a un chat grupal.']));
         }
 
         if (cmd.admin && !isAdmin) {
-            return tojiReply(conn, m, box('PERMISOS INSUFICIENTES', ['Necesitas ser administrador. Deja de jugar a ser el jefe.']));
+            return tojiReply(conn, m, box('FALTA DE PODER', ['Necesitas ser administrador para dar esta orden. Deja de jugar a ser el líder.']));
         }
 
         if (cmd.botAdmin && !isBotAdmin) {
-            return tojiReply(conn, m, box('FALLO DE LOGÍSTICA', ['No soy admin aquí. No puedo hacer mi trabajo así.']));
+            return tojiReply(conn, m, box('LOGÍSTICA INSUFICIENTES', ['No tengo el control del grupo. Dame administrador para ejecutar el trabajo limpiamente.']));
         }
 
         if (cmd.private && isGroup) {
-            return tojiReply(conn, m, box('ENTORNO INVÁLIDO', ['Este comando requiere una conexión privada directa (MD).']));
+            return tojiReply(conn, m, box('ZONA PRIVADA', ['No discutiré este contrato frente a todos. Háblame al chat privado (MD).']));
         }
 
         if (cmd.limit && !isPremium && !isOwner) {
             const userLimit = database.data.users[senderJid].limit ?? 0;
             if (userLimit < 1) {
-                return tojiReply(conn, m, box('LÍMITE ALCANZADO', ['Te quedaste sin Zenis. Inténtalo después.']));
+                return tojiReply(conn, m, box('BANCARROTA', ['Te quedaste sin fondos (Zenis). No trabajo por caridad, vuelve con dinero.']));
             }
             database.data.users[senderJid].limit -= 1;
         }
@@ -388,7 +392,7 @@ export const handler = async (m, conn, plugins) => {
             });
         } catch (e) {
             console.log(chalk.red('\n[!] ERROR EN PLUGIN:'), e);
-            if (isOwner) await tojiReply(conn, m, box('ERROR EN EL CONTRATO', [String(e).slice(0, 280)]));
+            if (isOwner) await tojiReply(conn, m, box('FALLO EN EL ENCAGO', [String(e).slice(0, 280)]));
         }
 
     } catch (err) {
