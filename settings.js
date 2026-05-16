@@ -41,7 +41,7 @@ global.icono  = 'https://upload.yotsuba.giize.com/u/Ti0_n2am.png'
 
 // ── Iconos aleatorios de Toji ────────────────────────────
 global.iconosToji = [
-  'https://i.pinimg.com/736x/e4/7f/cb/e47fcb0e2a1b3c4d5e6f7a8b9c0d1e2f.jpg',
+  'https://upload.yotsuba.giize.com/u/-tuY-BFS.png',
   'https://i.pinimg.com/736x/a1/b2/c3/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6.jpg',
   'https://i.pinimg.com/736x/f1/e2/d3/f1e2d3c4b5a6f7e8d9c0b1a2f3e4d5c6.jpg',
   'https://i.pinimg.com/736x/b5/c6/d7/b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0.jpg',
