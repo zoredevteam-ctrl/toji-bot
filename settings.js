@@ -47,7 +47,7 @@ global.iconosToji = [
   'https://upload.yotsuba.giize.com/u/h8B9BZl2.png',
   'https://upload.yotsuba.giize.com/u/piI2v8gs.png',
   'https://upload.yotsuba.giize.com/u/usI7bQPP.png',
-  'https://i.pinimg.com/736x/e7/f8/a9/e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2.jpg',
+  'https://upload.yotsuba.giize.com/u/lEyi2QOg.png',
   'https://i.pinimg.com/736x/f0/a1/b2/f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5.jpg'
 ]
 
