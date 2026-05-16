@@ -67,83 +67,186 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 *꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 General 𐦯*
-│ ۝࿐༵ ${px}menu
-│ ۝࿐༵ ${px}ping
-│ ۝࿐༵ ${px}owner
-│ ۝࿐༵ ${px}uptime
-│ ۝࿐༵ ${px}reg
-│ ۝࿐༵ ${px}clima
-│ ۝࿐༵ ${px}sticker
-│ ۝࿐༵ ${px}toimg
-╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
+
+> ♰ \`${px}menu\`
+*Muestra la lista completa de comandos interactivos del sistema.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}ping\`
+*Verifica la velocidad de respuesta y latencia actual del bot.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}owner\`
+*Muestra la información de contacto del creador oficial.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}uptime\`
+*Consulta el tiempo total que el bot lleva encendido sin interrupciones.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}reg\`
+*Registra tu usuario en la base de datos para desbloquear funciones.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}clima\`
+*Muestra el estado del clima actual de una ciudad específica.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}sticker\`
+*Convierte imágenes, videos o GIFs en stickers para WhatsApp.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}toimg\`
+*Convierte un sticker seleccionado de vuelta a una imagen fija.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
 
 *꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 Grupos 𐦯*
-│ ۝࿐༵ ${px}kick
-│ ۝࿐༵ ${px}add
-│ ۝࿐༵ ${px}ban
-│ ۝࿐༵ ${px}tagall
-│ ۝࿐༵ ${px}grupinfo
-│ ۝࿐༵ ${px}antilink
-│ ۝࿐༵ ${px}warn
-│ ۝࿐༵ ${px}welcome
-│ ۝࿐༵ ${px}goodbye
-╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─︩Ḫ๋─╯
+
+> ♰ \`${px}kick\`
+*Elimina a un miembro problemático del grupo actual.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}add\`
+*Agrega a un nuevo participante al grupo mediante su número.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}ban\`
+*Banea a un usuario para evitar que use las funciones del bot.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}tagall\`
+*Menciona a todos los miembros del grupo en un solo mensaje.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}grupinfo\`
+*Muestra los datos, configuración y estado del grupo actual.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}antilink\`
+*Activa o desactiva el sistema de seguridad contra enlaces.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}warn\`
+*Aplica una advertencia de aviso a un miembro del grupo.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}welcome\`
+*Configura o activa el mensaje de bienvenida para nuevos miembros.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}goodbye\`
+*Configura o activa el mensaje de despedida del grupo.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
 
 *꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 Perfil 𐦯*
-│ ۝࿐༵ ${px}perfil
-│ ۝࿐༵ ${px}userinfo
-│ ۝࿐༵ ${px}setbio
-│ ۝࿐༵ ${px}casar
-│ ۝࿐༵ ${px}divorcio
-│ ۝࿐༵ ${px}adoptar
-╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
-*꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 economy 𐦯*
-│ ۝࿐༵ ${px}bal
-│ ۝࿐༵ ${px}daily
-│ ۝࿐༵ ${px}chamba
-│ ۝࿐༵ ${px}dep
-│ ۝࿐༵ ${px}retirar
-│ ۝࿐༵ ${px}transferir
-│ ۝࿐༵ ${px}robar
-│ ۝࿐༵ ${px}top
-╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
+> ♰ \`${px}perfil\`
+*Visualiza tu tarjeta de perfil con todas tus estadísticas.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}userinfo\`
+*Muestra la información detallada de un usuario mencionado.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}setbio\`
+*Cambia o actualiza tu biografía personalizada del bot.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}casar\`
+*Propón matrimonio a otro usuario del bot para uniros.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}divorcio\`
+*Termina tu matrimonio actual y vuelve a la soltería.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}adoptar\`
+*Adopta a un usuario del grupo para que sea tu hijo.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+*꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 Economy 𐦯*
+
+> ♰ \`${px}bal\`
+*Consulta tu balance actual de monedas en billetera y banco.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}daily\`
+*Reclama tu recompensa diaria gratuita de monedas.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}chamba\`
+*Trabaja en un oficio aleatorio para ganar un sueldo estable.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}dep\`
+*Deposita tus monedas de la billetera directamente al banco.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}retirar\`
+*Retira la cantidad de monedas que necesites de tu banco.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}transferir\`
+*Envía una cantidad de tus monedas a otro usuario.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}robar\`
+*Intenta asaltar la billetera de otro usuario con riesgo.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}top\`
+*Muestra la lista de los usuarios con más dinero del bot.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
 
 *꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 Games 𐦯*
-│ ۝࿐༵ ${px}8ball
-│ ۝࿐༵ ${px}dado
-│ ۝࿐༵ ${px}ruleta
-│ ۝࿐༵ ${px}trivia
-│ ۝࿐༵ ${px}adivinanza
-╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
-*꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 REACTIONS 𐦯*
-│ ۝࿐༵ ${px}kiss
-│ ۝࿐༵ ${px}hug
-│ ۝࿐༵ ${px}pat
-│ ۝࿐༵ ${px}kill
-│ ۝࿐༵ ${px}bite
-│ ۝࿐༵ ${px}cry
-│ ۝࿐༵ ${px}happy
-│ ۝࿐༵ ${px}angry
-│ ۝࿐༵ ${px}cuddle
-│ ۝࿐༵ ${px}neko
-│ ۝࿐༵ ${px}cafe
-│ ۝࿐༵ ${px}dormir
-│ ۝࿐༵ ${px}push
-╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
+> ♰ \`${px}8ball\`
+*Hazle una pregunta a la bola mágica de las respuestas.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}dado\`
+*Lanza un dado de la suerte para ver qué número obtienes.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}ruleta\`
+*Apuesta tus monedas girando la ruleta de la fortuna.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}trivia\`
+*Responde preguntas de conocimiento general para ganar premios.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}adivinanza\`
+*Intenta resolver el acertijo que te proponga el bot.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+*꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 Reactions 𐦯*
+
+> ♰ \`${px}kiss\`
+*Envía un tierno beso virtual al usuario que desees.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}hug\`
+*Dale un abrazo afectuoso a un miembro del grupo.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}pat\`
+*Dale una palmadita suave en la cabeza a alguien.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}kill\`
+*Simula un ataque letal con estilo hacia otro usuario.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}bite\`
+*Dale una pequeña mordida juguetona a un compañero.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}cry\`
+*Expresa una profunda tristeza llorando en el chat.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}happy\`
+*Demuestra tu inmensa felicidad y alegría actual.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}angry\`
+*Muestra tu descontento o enojo con una reacción.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}cuddle\`
+*Acurrúcate cariñosamente con tu persona favorita.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}neko\`
+*Envía una reacción o imagen con temática de gato anime.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}cafe\`
+*Disfruta de una taza de café virtual de forma relajada.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}dormir\`
+*Indica que vas a tomar un descanso o irte a dormir.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}push\`
+*Dale un empujón divertido a un amigo en el grupo.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
 `
 
     if (isOwner) {
         menu += `
 *╭╼𝅄꒰𑁍⃪࣭۪ٜ݊݊݊݊݊໑ٜ࣪ ꒱ 𐔌 OWNER 𐦯*
-│ ۝࿐༵ ${px}addpremium
-│ ۝࿐༵ ${px}delpremium
-│ ۝࿐༵ ${px}listpremium
-│ ۝࿐༵ ${px}addowner
-│ ۝࿐༵ ${px}delowner
-│ ۝࿐༵ ${px}listowner
-╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
+
+> ♰ \`${px}addpremium\`
+*Añade privilegios premium a un usuario seleccionado.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}delpremium\`
+*Remueve el estado premium de un usuario de la lista.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}listpremium\`
+*Muestra la lista de todos los usuarios premium actuales.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}addowner\`
+*Otorga permisos de administrador supremo del bot a alguien.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}delowner\`
+*Remueve los permisos de administrador supremo de un usuario.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
+
+> ♰ \`${px}listowner\`
+*Muestra a todos los creadores con acceso total al sistema.* (⁠◍⁠•⁠ᴗ⁠•⁠◍⁠)
 `
     }
 
