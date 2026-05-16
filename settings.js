@@ -37,7 +37,7 @@ global.newsletterJid  = '120363408182996815@newsletter'
 global.newsletterName = '༺𝕿𝔧᭄⏤͟͟͞͞𝕿𝖔𝖏𝖎 𝕱𝖚𝖘𝖍𝖎𝖌𝖚𝖗𝖔𒆜℘࿐༵'
 
 global.banner = 'https://upload.yotsuba.giize.com/u/Uj1apzmd.jpg'
-global.icono  = 'https://i.pinimg.com/564x/6e/2b/2e/6e2b2e5e1e6e2b2e5e1e6e2b2e5e1e6e.jpg'
+global.icono  = 'https://upload.yotsuba.giize.com/u/Ti0_n2am.png'
 
 // ── Iconos aleatorios de Toji ────────────────────────────
 global.iconosToji = [
