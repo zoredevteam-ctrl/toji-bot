@@ -78,11 +78,28 @@ const tojiReply = async (conn, m, txt) => {
         } else {
             iconUrl = global.icono || global.banner || '';
         }
-        const r = await fetch(iconUrl);
-        const thumb = r.ok ? Buffer.from(await r.arrayBuffer()) : null;
-        const ctx   = global.getNewsletterCtx?.(thumb, '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍', 'Asesino de Hechiceros') || {};
-        await conn.sendMessage(m.chat, { text: txt, contextInfo: ctx }, { quoted: m });
-    } catch {
+
+        await conn.sendMessage(m.chat, { 
+            text: txt, 
+            contextInfo: {
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid:   global.newsletterJid || '',
+                    serverMessageId: -1,
+                    newsletterName:  global.newsletterName || '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍'
+                },
+                externalAdReply: {
+                    title: '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍',
+                    body: 'Asesino de Hechiceros',
+                    mediaType: 1,
+                    thumbnailUrl: iconUrl, // Forzamos carga directa por URL para evitar el cuadro negro
+                    sourceUrl: global.rcanal || '',
+                    renderLargerThumbnail: false
+                }
+            }
+        }, { quoted: m });
+    } catch (e) {
+        console.log(chalk.red('[ERROR TOJI REPLY]'), e.message);
         try { await m.reply(txt); } catch {}
     }
 };
@@ -392,7 +409,7 @@ export const handler = async (m, conn, plugins) => {
             });
         } catch (e) {
             console.log(chalk.red('\n[!] ERROR EN PLUGIN:'), e);
-            if (isOwner) await tojiReply(conn, m, box('FALLO EN EL ENCAGO', [String(e).slice(0, 280)]));
+            if (isOwner) await tojiReply(conn, m, box('FALLO EN EL ENCARGO', [String(e).slice(0, 280)]));
         }
 
     } catch (err) {
