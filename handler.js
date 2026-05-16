@@ -72,12 +72,10 @@ const similarity = (a, b) => {
 
 const tojiReply = async (conn, m, txt) => {
     try {
-        let iconUrl = '';
-        if (Array.isArray(global.icono)) {
-            iconUrl = global.icono[Math.floor(Math.random() * global.icono.length)];
-        } else {
-            iconUrl = global.icono || global.banner || '';
-        }
+        // Obtenemos un icono completamente aleatorio de tus settings usando tu función
+        let iconUrl = typeof global.getRandomIconoToji === 'function' 
+            ? global.getRandomIconoToji() 
+            : (global.icono || global.banner || '');
 
         await conn.sendMessage(m.chat, { 
             text: txt, 
@@ -86,13 +84,13 @@ const tojiReply = async (conn, m, txt) => {
                 forwardedNewsletterMessageInfo: {
                     newsletterJid:   global.newsletterJid || '',
                     serverMessageId: -1,
-                    newsletterName:  global.newsletterName || '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍'
+                    newsletterName:  global.newsletterName || '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎─𝐍'
                 },
                 externalAdReply: {
                     title: '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍',
                     body: 'Asesino de Hechiceros',
                     mediaType: 1,
-                    thumbnailUrl: iconUrl, // Forzamos carga directa por URL para evitar el cuadro negro
+                    thumbnailUrl: iconUrl, // Carga directa por URL para evitar el bug del cuadro negro
                     sourceUrl: global.rcanal || '',
                     renderLargerThumbnail: false
                 }
