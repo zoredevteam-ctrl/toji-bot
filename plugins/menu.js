@@ -4,7 +4,7 @@ import os from 'os'
 const handler = async (m, { conn, usedPrefix: px }) => {
     const botName = '𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎'
     const version = '𝙃𝙀𝘼𝙑𝙀𝙉𝙇𝙔 𝙍𝙀𝙎𝙏𝙍𝙄𝘾𝙏𝙄𝙊𝙉'
-    const developer = 'AAROM & FÉLIX'
+    const developer = '˚₊· ͟͟͞͞  ɪ ᴀᴍ  Aᴅʀɪᴇɴ'
     const protocol = '𝐒𝐎𝐑𝐂𝐄𝐑𝐄𝐑 𝐊𝐈𝐋𝐋𝐄Ｒ'
 
     const banner = global.banner = 'https://upload.yotsuba.giize.com/u/Uj1apzmd.jpg'
