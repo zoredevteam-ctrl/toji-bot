@@ -1,74 +1,62 @@
-// ╔══════════════════════════════════════════════════════════╗
-// ║   TOJI FUSHIGURO BOT — PLUGINS/MENU.JS                   ║
-// ╚══════════════════════════════════════════════════════════╝
+/* 
+    PLUGIN: MENU TOJI FUSHIGURO
+    ESTILO: MERCENARIO
+*/
 
-require('../../settings')
+let handler = async (m, { conn, usedPrefix, isOwner, isAdmin, isPremium }) => {
+    
+    const user = global.database.data.users[m.sender]
+    const name = user.name || m.pushName || 'Desconocido'
+    const role = isOwner ? global.roles.owner : (isAdmin ? global.roles.admin : global.roles.member)
+    
+    const menuText = `⚔️  ──  ${global.botName}  ──  ⚔️
 
-const { formatUptime }   = require('../../lib/simple')
-const { getStats }       = require('../../lib/database')
-const { incrementStat }  = require('../../lib/database')
+Hola, *${name}*.
+El dinero mueve el mundo, no las maldiciones. 
+Aquí tienes mis servicios actuales:
 
-exports['menu'] = {
-  desc:    'Ver el menú principal del bot',
-  category: 'general',
-  async execute({ client, m, from, isOwner }) {
-    incrementStat('totalCommands')
-    const stats = getStats()
-    const icono = global.getRandomIconoToji()
-    const p     = global.prefix
+✦ [ 👤 PERFIL ]
+  ➢ Rol: ${role}
+  ➢ Zenis: ${user.money || 0}
+  ➢ Nivel: ${user.level || 1}
 
-    const menu =
-      `⚔️ *${global.botName}*\n` +
-      `${'━'.repeat(34)}\n\n` +
+✦ [ ⚔️ MENÚ DE CONTRATOS ]
+  ➢ ${usedPrefix}reg - Registrarse en el clan
+  ➢ ${usedPrefix}perfil - Tu estado como mercenario
+  ➢ ${usedPrefix}shop - Mercado negro (Zenis)
+  ➢ ${usedPrefix}sticker - Conversión rápida
+  ➢ ${usedPrefix}play - Buscar información (Música/Video)
 
-      `🛠️ *HERRAMIENTAS*\n` +
-      `  ${p}p / ${p}ping — Latencia + canal\n` +
-      `  ${p}uptime — Tiempo activo\n` +
-      `  ${p}hora — Hora y fecha\n` +
-      `  ${p}info — Info del bot\n` +
-      `  ${p}canal — Canal oficial\n` +
-      `  ${p}toji — Imagen aleatoria\n` +
-      `  ${p}frase — Frase de personaje\n` +
-      `  ${p}dado [N] — Tirar dado\n` +
-      `  ${p}monedaflip — Cara o cruz\n` +
-      `  ${p}8ball — Oráculo\n\n` +
+✦ [ 👑 COMANDOS DE CLAN (ADMINS) ]
+  ➢ ${usedPrefix}kick - Expulsar no deseados
+  ➢ ${usedPrefix}hidetag - Anuncio para el clan
+  ➢ ${usedPrefix}setwelcome - Configurar entrada
 
-      `💰 *ECONOMÍA (${global.moneda})*\n` +
-      `  ${p}balance — Ver saldo\n` +
-      `  ${p}daily — Recompensa diaria\n` +
-      `  ${p}work — Trabajar\n` +
-      `  ${p}trabajos — Ver trabajos\n` +
-      `  ${p}setjob <trabajo> — Elegir trabajo\n` +
-      `  ${p}rob @usuario — Robar\n` +
-      `  ${p}top — Ranking de ricos\n\n` +
+✦ [ 🔗 CANAL OFICIAL ]
+  ➢ Sígueme aquí: ${global.rcanal}
 
-      `⚔️ *RPG*\n` +
-      `  ${p}perfil — Ver perfil\n` +
-      `  ${p}rank — Ver rango\n` +
-      `  ${p}entrenar — Ganar XP\n` +
-      `  ${p}batalla @usuario — Pelear\n\n` +
+──────────────────────────
+*El sistema está activo. No me hagas perder el tiempo.*`.trim()
 
-      `👥 *GRUPOS (Admin)*\n` +
-      `  ${p}kick @usuario\n` +
-      `  ${p}promote @usuario\n` +
-      `  ${p}demote @usuario\n` +
-      `  ${p}antilink on/off\n` +
-      `  ${p}welcome on/off\n` +
-      `  ${p}tagall [mensaje]\n\n` +
+    try {
+        // Obtenemos el banner y el contexto del newsletter
+        const thumb = await global.getBannerThumb()
+        const ctx = global.getNewsletterCtx(
+            thumb, 
+            '⚔️ SISTEMA DE CONTRATOS', 
+            'El asesino de hechiceros'
+        )
 
-      `${'─'.repeat(34)}\n` +
-      `📡 ${global.rcanal}\n` +
-      `📰 *Newsletter:* ${global.newsletterName}\n\n` +
-      `⏳ Uptime: ${formatUptime(process.uptime())}\n` +
-      `📊 Comandos usados: ${stats.totalCommands || 0}\n\n` +
-      `_"¿Ya sabes lo que quieres? Bien."_\n— Toji Fushiguro`
+        await conn.sendMessage(m.chat, { 
+            text: menuText, 
+            contextInfo: ctx 
+        }, { quoted: m })
 
-    await client.sendMessage(from, {
-      image:   { url: icono },
-      caption: menu,
-    }, { quoted: m })
-  },
+    } catch (e) {
+        // Fallback simple si falla la imagen
+        await m.reply(menuText)
+    }
 }
 
-exports['help'] = exports['menu']
-exports['start'] = exports['menu']
+handler.command = ['menu', 'help', 'comandos']
+export default handler
