@@ -43,7 +43,7 @@ global.icono  = 'https://upload.yotsuba.giize.com/u/Ti0_n2am.png'
 global.iconosToji = [
   'https://upload.yotsuba.giize.com/u/-tuY-BFS.png',
   'https://upload.yotsuba.giize.com/u/l6OnzK9q.png',
-  'https://i.pinimg.com/736x/f1/e2/d3/f1e2d3c4b5a6f7e8d9c0b1a2f3e4d5c6.jpg',
+  'https://upload.yotsuba.giize.com/u/Tv2DigZL.png',
   'https://i.pinimg.com/736x/b5/c6/d7/b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0.jpg',
   'https://i.pinimg.com/736x/c9/d0/e1/c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4.jpg',
   'https://i.pinimg.com/736x/d3/e4/f5/d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8.jpg',
