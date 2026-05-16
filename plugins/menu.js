@@ -67,82 +67,82 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 *꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 General 𐦯*
-│ ◦ ${px}menu
-│ ◦ ${px}ping
-│ ◦ ${px}owner
-│ ◦ ${px}uptime
-│ ◦ ${px}reg
-│ ◦ ${px}clima
-│ ◦ ${px}sticker
-│ ◦ ${px}toimg
+│ ۝࿐༵ ${px}menu
+│ ۝࿐༵ ${px}ping
+│ ۝࿐༵ ${px}owner
+│ ۝࿐༵ ${px}uptime
+│ ۝࿐༵ ${px}reg
+│ ۝࿐༵ ${px}clima
+│ ۝࿐༵ ${px}sticker
+│ ۝࿐༵ ${px}toimg
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 *꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 Grupos 𐦯*
-│ ◦ ${px}kick
-│ ◦ ${px}add
-│ ◦ ${px}ban
-│ ◦ ${px}tagall
-│ ◦ ${px}grupinfo
-│ ◦ ${px}antilink
-│ ◦ ${px}warn
-│ ◦ ${px}welcome
-│ ◦ ${px}goodbye
+│ ۝࿐༵ ${px}kick
+│ ۝࿐༵ ${px}add
+│ ۝࿐༵ ${px}ban
+│ ۝࿐༵ ${px}tagall
+│ ۝࿐༵ ${px}grupinfo
+│ ۝࿐༵ ${px}antilink
+│ ۝࿐༵ ${px}warn
+│ ۝࿐༵ ${px}welcome
+│ ۝࿐༵ ${px}goodbye
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─︩Ḫ๋─╯
 
 *꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 Perfil 𐦯*
-│ ◦ ${px}perfil
-│ ◦ ${px}userinfo
-│ ◦ ${px}setbio
-│ ◦ ${px}casar
-│ ◦ ${px}divorcio
-│ ◦ ${px}adoptar
+│ ۝࿐༵ ${px}perfil
+│ ۝࿐༵ ${px}userinfo
+│ ۝࿐༵ ${px}setbio
+│ ۝࿐༵ ${px}casar
+│ ۝࿐༵ ${px}divorcio
+│ ۝࿐༵ ${px}adoptar
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 *꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 economy 𐦯*
-│ ◦ ${px}bal
-│ ◦ ${px}daily
-│ ◦ ${px}chamba
-│ ◦ ${px}dep
-│ ◦ ${px}retirar
-│ ◦ ${px}transferir
-│ ◦ ${px}robar
-│ ◦ ${px}top
+│ ۝࿐༵ ${px}bal
+│ ۝࿐༵ ${px}daily
+│ ۝࿐༵ ${px}chamba
+│ ۝࿐༵ ${px}dep
+│ ۝࿐༵ ${px}retirar
+│ ۝࿐༵ ${px}transferir
+│ ۝࿐༵ ${px}robar
+│ ۝࿐༵ ${px}top
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 *꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 Games 𐦯*
-│ ◦ ${px}8ball
-│ ◦ ${px}dado
-│ ◦ ${px}ruleta
-│ ◦ ${px}trivia
-│ ◦ ${px}adivinanza
+│ ۝࿐༵ ${px}8ball
+│ ۝࿐༵ ${px}dado
+│ ۝࿐༵ ${px}ruleta
+│ ۝࿐༵ ${px}trivia
+│ ۝࿐༵ ${px}adivinanza
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 *꒰⌢◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸ ✎ ꒱ 𐔌 REACTIONS 𐦯*
-│ ◦ ${px}kiss
-│ ◦ ${px}hug
-│ ◦ ${px}pat
-│ ◦ ${px}kill
-│ ◦ ${px}bite
-│ ◦ ${px}cry
-│ ◦ ${px}happy
-│ ◦ ${px}angry
-│ ◦ ${px}cuddle
-│ ◦ ${px}neko
-│ ◦ ${px}cafe
-│ ◦ ${px}dormir
-│ ◦ ${px}push
+│ ۝࿐༵ ${px}kiss
+│ ۝࿐༵ ${px}hug
+│ ۝࿐༵ ${px}pat
+│ ۝࿐༵ ${px}kill
+│ ۝࿐༵ ${px}bite
+│ ۝࿐༵ ${px}cry
+│ ۝࿐༵ ${px}happy
+│ ۝࿐༵ ${px}angry
+│ ۝࿐༵ ${px}cuddle
+│ ۝࿐༵ ${px}neko
+│ ۝࿐༵ ${px}cafe
+│ ۝࿐༵ ${px}dormir
+│ ۝࿐༵ ${px}push
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 `
 
     if (isOwner) {
         menu += `
 *╭╼𝅄꒰𑁍⃪࣭۪ٜ݊݊݊݊݊໑ٜ࣪ ꒱ 𐔌 OWNER 𐦯*
-│ ◦ ${px}addpremium
-│ ◦ ${px}delpremium
-│ ◦ ${px}listpremium
-│ ◦ ${px}addowner
-│ ◦ ${px}delowner
-│ ◦ ${px}listowner
+│ ۝࿐༵ ${px}addpremium
+│ ۝࿐༵ ${px}delpremium
+│ ۝࿐༵ ${px}listpremium
+│ ۝࿐༵ ${px}addowner
+│ ۝࿐༵ ${px}delowner
+│ ۝࿐༵ ${px}listowner
 ╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 `
     }
