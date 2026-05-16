@@ -44,7 +44,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │  𝐓𝐎𝐉𝐈 𝐅𝐔𝐒𝐇𝐈𝐆𝐔𝐑𝐎
 │  ${version}
 │
-╰─┈─────────┈─╯
+╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 > “𝚃𝚑𝚎 𝚘𝚗𝚎 𝚠𝚑𝚘 𝚕𝚎𝚏𝚝 𝚒𝚝 𝚊𝚕𝚕 𝚋𝚎𝚑𝚒𝚗𝚍...”
 
@@ -53,14 +53,14 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ LEVEL: ${level}
 │ ◦ EXP: ${exp.toLocaleString()}
 │ ◦ YEN: ${money.toLocaleString()}
-╰─┈─────────┈─╯
+╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 ╭─┈ ⟬ ⚔️ SYSTEM INFO ⟭ ┈─╮
 │ ◦ SPEED: ${speed} MS
 │ ◦ RAM: ${usedRam}MB / ${totalRam}GB
 │ ◦ UPTIME: ${uptime}
 │ ◦ USERS: ${totalUsers}
-╰─┈─────────┈─╯
+╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 ╭─┈ ⟬ 🗡️ GENERAL ⟭ ┈─╮
 │ ◦ ${px}menu
@@ -71,7 +71,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ ${px}clima
 │ ◦ ${px}sticker
 │ ◦ ${px}toimg
-╰─┈─────────┈─╯
+╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 ╭─┈ ⟬ 👑 GROUP CONTROL ⟭ ┈─╮
 │ ◦ ${px}kick
@@ -83,7 +83,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ ${px}warn
 │ ◦ ${px}welcome
 │ ◦ ${px}goodbye
-╰─┈─────────┈─╯
+╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 ╭─┈ ⟬ 🎴 PROFILE SYSTEM ⟭ ┈─╮
 │ ◦ ${px}perfil
@@ -92,7 +92,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ ${px}casar
 │ ◦ ${px}divorcio
 │ ◦ ${px}adoptar
-╰─┈─────────┈─╯
+╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 ╭─┈ ⟬ 💴 ECONOMY ⟭ ┈─╮
 │ ◦ ${px}bal
@@ -103,7 +103,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ ${px}transferir
 │ ◦ ${px}robar
 │ ◦ ${px}top
-╰─┈─────────┈─╯
+╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 ╭─┈ ⟬ 🎲 GAMES ⟭ ┈─╮
 │ ◦ ${px}8ball
@@ -111,7 +111,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ ${px}ruleta
 │ ◦ ${px}trivia
 │ ◦ ${px}adivinanza
-╰─┈─────────┈─╯
+╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 
 ╭─┈ ⟬ ❤️ REACTIONS ⟭ ┈─╮
 │ ◦ ${px}kiss
@@ -127,7 +127,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ ${px}cafe
 │ ◦ ${px}dormir
 │ ◦ ${px}push
-╰─┈─────────┈─╯
+╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 `
 
     if (isOwner) {
@@ -139,7 +139,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │ ◦ ${px}addowner
 │ ◦ ${px}delowner
 │ ◦ ${px}listowner
-╰─┈─────────┈─╯
+╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 `
     }
 
@@ -150,7 +150,7 @@ const handler = async (m, { conn, usedPrefix: px }) => {
 │
 │  ${developer} © 2026
 │
-╰─┈─────────┈─╯
+╰─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬♰⃘۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╯
 `.trim()
 
     await conn.sendMessage(m.chat, {
