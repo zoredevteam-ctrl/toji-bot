@@ -1,26 +1,13 @@
 export const event = 'group-participants.update'
 
-const getThumb = async () => {
-    try {
-        let iconUrl = ''
-        if (Array.isArray(global.icono)) {
-            iconUrl = global.icono[Math.floor(Math.random() * global.icono.length)]
-        } else {
-            iconUrl = global.icono || global.banner || ''
-        }
-        const res = await fetch(iconUrl)
-        if (!res.ok) return null
-        return Buffer.from(await res.arrayBuffer())
-    } catch { return null }
-}
-
 const getProfilePic = async (conn, jid) => {
     try {
         const url = await conn.profilePictureUrl(jid, 'image')
         const res = await fetch(url)
         return Buffer.from(await res.arrayBuffer())
     } catch {
-        return await getThumb()
+        // Si no tiene foto de perfil, pasamos un buffer vacío o null para que use la del externalAdReply
+        return null
     }
 }
 
@@ -45,11 +32,14 @@ export const run = async (conn, update) => {
             totalMembers = meta.participants?.length || 0
         } catch {}
 
-        const thumb = await getThumb()
-
         for (const jid of participants) {
             const num   = jid.split('@')[0]
             const ppBuf = await getProfilePic(conn, jid)
+            
+            // Obtenemos un icono aleatorio de tus settings para cada mensaje
+            const iconUrl = typeof global.getRandomIconoToji === 'function' 
+                ? global.getRandomIconoToji() 
+                : (global.icono || global.banner || '')
 
             // ── BIENVENIDA (ESTILO TOJI) ──────────────────────────────────────
             if (action === 'add') {
@@ -62,58 +52,73 @@ export const run = async (conn, update) => {
                     `>\n` +
                     `> *“No me importa quién seas ni tus ideales. Mientras no te metas en mi camino ni me hagas perder dinero, sobreviviremos en este sitio.”*`
 
-                await conn.sendMessage(id, {
-                    image: ppBuf,
+                const msgOptions = {
                     caption: txt,
                     mentions: [jid],
                     contextInfo: {
                         isForwarded: true,
                         forwardedNewsletterMessageInfo: {
-                            newsletterJid:   global.newsletterJid,
+                            newsletterJid:   global.newsletterJid || '',
                             serverMessageId: -1,
-                            newsletterName:  global.newsletterName
+                            newsletterName:  global.newsletterName || '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍'
                         },
                         externalAdReply: {
                             title:                 `🩸 NUEVO CONTRATO`,
                             body:                  '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍',
                             mediaType:             1,
-                            thumbnail:             thumb,
+                            thumbnailUrl:          iconUrl, // Forzamos URL directa para evitar cuadro negro
                             renderLargerThumbnail: false,
                             sourceUrl:             global.rcanal || ''
                         }
                     }
-                })
+                }
+
+                // Si se obtuvo la foto de perfil del usuario se manda, si no, se envía solo texto con el adReply
+                if (ppBuf) {
+                    msgOptions.image = ppBuf
+                } else {
+                    msgOptions.text = txt
+                }
+
+                await conn.sendMessage(id, msgOptions)
 
             // ── DESPEDIDA (ESTILO TOJI) ──────────────────────────────────────
             } else if (action === 'remove') {
                 const txt =
                     `> 🩸 *[ BAJA CONFIRMADA ]*\n` +
                     `> *@${num} dejó de ser útil y se marchó del lugar.*\n` +
-                    `> *Miembros restantes:* _${totalMembers} objetivos en el radar._\n` +
+                    `> *Miembros restantes:* _${totalMembers - 1} objetivos en el radar._\n` +
                     `>\n` +
                     `> *“Uno menos del que preocuparse. Al final del día, las bajas no afectan el valor de mi comisión. El dinero sigue valiendo lo mismo.”*`
 
-                await conn.sendMessage(id, {
-                    image: ppBuf,
+                const msgOptions = {
                     caption: txt,
                     mentions: [jid],
                     contextInfo: {
                         isForwarded: true,
                         forwardedNewsletterMessageInfo: {
-                            newsletterJid:   global.newsletterJid,
+                            newsletterJid:   global.newsletterJid || '',
                             serverMessageId: -1,
-                            newsletterName:  global.newsletterName
+                            newsletterName:  global.newsletterName || '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍'
                         },
                         externalAdReply: {
                             title:                 `🩸 BAJA REGISTRADA`,
-                            body:                  '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍',
+                            body:                  '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎停',
                             mediaType:             1,
-                            thumbnail:             thumb,
+                            thumbnailUrl:          iconUrl, // Forzamos URL directa para evitar cuadro negro
                             renderLargerThumbnail: false,
                             sourceUrl:             global.rcanal || ''
                         }
                     }
-                })
+                }
+
+                if (ppBuf) {
+                    msgOptions.image = ppBuf
+                } else {
+                    msgOptions.text = txt
+                }
+
+                await conn.sendMessage(id, msgOptions)
             }
         }
     } catch (e) {
