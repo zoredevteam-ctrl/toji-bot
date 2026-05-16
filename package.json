@@ -1,27 +1,30 @@
 {
-  "name": "toji-fushiguro-bot",
+  "name": "hiruka-celestial-md",
   "version": "1.0.0",
-  "description": "Bot de WhatsApp temático de Toji Fushiguro — Jujutsu Kaisen",
+  "description": "WhatsApp Bot Premium — Hiruka Celestial MD Edition",
   "main": "index.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node index.js"
   },
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.7.9",
-    "axios": "^1.6.7",
-    "chalk": "^4.1.2",
-    "figlet": "^1.7.0",
-    "fs-extra": "^11.2.0",
-    "jimp": "^0.22.12",
-    "node-cache": "^5.1.2",
-    "pino": "^8.19.0",
-    "qrcode-terminal": "^0.12.0"
+    "@whiskeysockets/baileys": "^6.7.21",
+    "@hapi/boom": "^10.0.1",
+    "pino": "^9.0.0",
+    "qrcode-terminal": "^0.12.0",
+    "qrcode": "^1.5.3",
+    "chalk": "^5.3.0",
+    "readline-sync": "^1.4.10",
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "fluent-ffmpeg": "^2.1.2",
+    "jimp": "^1.6.0",
+    "file-type": "^18.5.0",
+    "yt-search": "^2.10.4",
+    "lowdb": "^7.0.1",
+    "lodash": "^4.17.21",
+    "fs-extra": "^11.2.0"
   },
-  "devDependencies": {
-    "nodemon": "^3.1.0"
-  },
-  "author": "Toji Fushiguro Bot",
+  "author": "Aarom",
   "license": "MIT"
 }
