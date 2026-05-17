@@ -1,76 +1,29 @@
-/**
- * ────────────────────────────────────────────────────────────────────────
- * ✦ HANDLER PRINCIPAL - TOJI FUSHIGURO SYSTEM ✦
- * Creador y Desarrollador: Aarom (Adrien)
- * Agradecimientos: Félix (Asesoría en configuración de rcanal)
- * ────────────────────────────────────────────────────────────────────────
- */
+import { smsg } from './lib/simple.js'
+import { format } from 'util'
+import * as ws from 'ws';
+import { fileURLToPath } from 'url'
+import path, { join } from 'path'
+import { unwatchFile, watchFile } from 'fs'
+import chalk from 'chalk'
+import fetch from 'node-fetch'
+import failureHandler from './lib/respuesta.js';
 
-import './settings.js';
-import chalk from 'chalk';
-import printLog from './lib/print.js';
-import { smsg } from './lib/simple.js';
-import { database } from './lib/database.js';
-import { readdirSync } from 'fs';
-import { join, resolve } from 'path';
-import { pathToFileURL } from 'url';
+const { proto } = (await import('@whiskeysockets/baileys')).default
+const isNumber = x => typeof x === 'number' && !isNaN(x)
+const delay = ms => isNumber(ms) && new Promise(resolve => setTimeout(function () {
+    clearTimeout(this)
+    resolve()
+}, ms))
 
-const toNum         = v => (v + '').replace(/[^0-9]/g, '');
-const localPart     = v => (v + '').split('@')[0].split(':')[0].split('/')[0].split(',')[0];
-const normalizeCore = v => toNum(localPart(v));
+global.uptimeStart = Date.now();
 
-const normalizeJid = v => {
-    if (!v) return '';
-    if (typeof v === 'number') v = String(v);
-    v = (v + '').trim();
-    if (v.startsWith('@')) v = v.slice(1);
-    if (v.endsWith('@g.us')) return v;
-    if (v.includes('@s.whatsapp.net')) {
-        const n = toNum(v.split('@')[0]);
-        return n ? n + '@s.whatsapp.net' : v;
-    }
-    const n = toNum(v);
-    return n ? n + '@s.whatsapp.net' : v;
-};
-
-function pickOwners() {
-    const arr  = Array.isArray(global.owner) ? global.owner : [];
-    const flat = [];
-    for (const v of arr) {
-        if (Array.isArray(v)) flat.push({ num: normalizeCore(v[0]), root: !!v[2] });
-        else flat.push({ num: normalizeCore(v), root: false });
-    }
-    return flat;
-}
-
-function isOwnerJid(jid) {
-    const num = normalizeCore(jid);
-    return pickOwners().some(o => o.num === num);
-}
-
-function isRootOwnerJid(jid) {
-    const num = normalizeCore(jid);
-    return pickOwners().some(o => o.num === num && o.root);
-}
-
-function isPremiumJid(jid) {
-    const num   = normalizeCore(jid);
-    const prems = Array.isArray(global.prems) ? global.prems.map(normalizeCore) : [];
-    if (prems.includes(num)) return true;
-    const u = database.data?.users?.[normalizeJid(jid)];
-    return !!u?.premium;
-}
-
-const PREFIXES = ['#', '.', '/', '$'];
-
-// ── 🛠️ HELPER OPTIMIZADO PARA EVITAR CUADROS NEGROS ───────────────────
+// ── 🛠️ OPTIMIZADOR LOCAL PARA DETENER CUADROS NEGROS EN CELULARES ─────
 const getBuffer = async (url) => {
     try {
         if (!url) return null;
         const targetUrl = url.startsWith('http') 
             ? `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=200&h=200&output=jpg&bg=white` 
             : url;
-            
         const res = await fetch(targetUrl);
         if (!res.ok) return null;
         return Buffer.from(await res.arrayBuffer());
@@ -79,371 +32,367 @@ const getBuffer = async (url) => {
     }
 };
 
-function getPrefix(body) {
-    for (const p of PREFIXES) {
-        if (body.startsWith(p)) return p;
-    }
-    return null;
-}
-
-const similarity = (a, b) => {
-    let matches = 0;
-    for (let i = 0; i < Math.min(a.length, b.length); i++) {
-        if (a[i] === b[i]) matches++;
-    }
-    return Math.floor((matches / Math.max(a.length, b.length)) * 100);
-};
-
-// ── 🛡️ RESPUESTA BLINDADA CONTRA INVISIBILIDAD EN WHATSAPP OFICIAL ───
-const tojiReply = async (conn, m, txt) => {
+export async function handler(chatUpdate) {
+    this.msgqueque = this.msgqueque || []
+    this.uptime = this.uptime || Date.now()
+    if (!chatUpdate) return
+    
+    let sender = null;
     try {
-        let iconUrl = typeof global.getRandomIconoToji === 'function' 
-            ? global.getRandomIconoToji() 
-            : (global.icono || global.banner || '');
+        let mObj = chatUpdate.messages[chatUpdate.messages.length - 1];
+        if (!mObj) return;
+        const messageTime = (mObj.messageTimestamp * 1000) || Date.now();
+        const timeDiff = Date.now() - messageTime;
+        if (timeDiff > 60000) return; 
+    } catch (e) {
+        console.error(e);
+    }
+    
+    this.pushMessage(chatUpdate.messages).catch(console.error)
+    let m = chatUpdate.messages[chatUpdate.messages.length - 1]
+    if (!m) return;
+    if (global.db && global.db.data == null) await global.loadDatabase()
+    
+    try {
+        m = smsg(this, m) || m
+        if (!m) return
+        
+        // ── 🛡️ INYECCIÓN DE RESPUESTA PREMIUM DE TOJI FUSHIGURO ──────────
+        const conn = this;
+        m.reply = async (txt) => {
+            try {
+                let iconUrl = typeof global.getRandomIconoToji === 'function' 
+                    ? global.getRandomIconoToji() 
+                    : (global.icono || global.banner || '');
 
-        const thumbBuffer = await getBuffer(iconUrl);
-        const isValidNewsletter = global.newsletterJid && global.newsletterJid.includes('@newsletter');
+                const thumbBuffer = await getBuffer(iconUrl);
+                const isValidNewsletter = global.newsletterJid && global.newsletterJid.includes('@newsletter');
 
-        let contextConfig = {
-            externalAdReply: {
-                title: '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍',
-                body: 'Asesino de Hechiceros',
-                mediaType: 1,
-                thumbnail: thumbBuffer, 
-                sourceUrl: global.rcanal || '',
-                renderLargerThumbnail: false
+                let contextConfig = {
+                    externalAdReply: {
+                        title: '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍',
+                        body: 'Asesino de Hechiceros',
+                        mediaType: 1,
+                        thumbnail: thumbBuffer, 
+                        sourceUrl: global.rcanal || '',
+                        renderLargerThumbnail: false
+                    }
+                };
+
+                if (isValidNewsletter) {
+                    contextConfig.isForwarded = true;
+                    contextConfig.forwardedNewsletterMessageInfo = {
+                        newsletterJid: global.newsletterJid,
+                        serverMessageId: -1,
+                        newsletterName: global.newsletterName || '༺𝕿𝔧᭄⏤͟͟͞͞𝕿𝖔𝖏𝖎 𝕱𝖚𝖘𝖍𝖎𝖌𝖚𝖗𝖔𒆜℘࿐༵'
+                    };
+                }
+
+                return await conn.sendMessage(m.chat, { 
+                    text: txt, 
+                    contextInfo: contextConfig
+                }, { quoted: m });
+
+            } catch (e) {
+                console.log(chalk.red('[ERROR TOJI REPLY]'), e.message);
+                return await conn.sendMessage(m.chat, { text: txt }, { quoted: m });
             }
         };
 
-        if (isValidNewsletter) {
-            contextConfig.isForwarded = true;
-            contextConfig.forwardedNewsletterMessageInfo = {
-                newsletterJid: global.newsletterJid,
-                serverMessageId: -1,
-                newsletterName: global.newsletterName || '༺𝕿𝔧᭄⏤͟͟͞͞𝕿𝖔𝖏𝖎 𝕱𝖚𝖘𝖍𝖎𝖌𝖚𝖗𝖔𒆜℘࿐༵'
-            };
-        }
-
-        await conn.sendMessage(m.chat, { 
-            text: txt, 
-            contextInfo: contextConfig
-        }, { quoted: m });
-
-    } catch (e) {
-        console.log(chalk.red('[ERROR TOJI REPLY]'), e.message);
-        try { await m.reply(`> 🩸 *[ MENSAJE DEL CLAN ZENIN ]*\n> *${txt}*`); } catch {}
-    }
-};
-
-const box = (title, lines) =>
-    `> 🩸 *[ ${title} ]*\n` +
-    lines.map(l => `> *${l}*`).join('\n');
-
-const eventsLoadedFor = new WeakSet();
-
-export const loadEvents = async (conn) => {
-    if (!conn?.ev?.on) return;
-    if (eventsLoadedFor.has(conn)) return;
-    eventsLoadedFor.add(conn);
-
-    const eventsPath = resolve('./events');
-    let files = [];
-
-    try {
-        files = readdirSync(eventsPath).filter(f => f.endsWith('.js'));
-    } catch {
-        return;
-    }
-
-    for (const file of files) {
-        try {
-            const url = pathToFileURL(join(eventsPath, file)).href;
-            const mod = await import(url);
-            if (!mod.event || !mod.run) continue;
-            conn.ev.on(mod.event, (data) => {
-                const id = data?.id || data?.key?.remoteJid || null;
-                if (mod.enabled && id && !mod.enabled(id)) return;
-                mod.run(conn, data);
-            });
-        } catch (e) {
-            console.log(chalk.red(`[EVENTS ERROR] ${file}:`), e.message);
-        }
-    }
-};
-
-export const handler = async (m, conn, plugins) => {
-    try {
-        if (!m) return;
-
-        await loadEvents(conn);
-        m = await smsg(conn, m);
-
-        if (global.botOff && !m.fromMe) {
-            const senderCheck = (m.sender || '').replace(/:[0-9A-Za-z]+(?=@s\.whatsapp\.net)/, '');
-            if (!isOwnerJid(senderCheck)) return;
-        }
-
-        if (m.isGroup && conn._subbotId) {
-            const groupData = database.data?.groups?.[m.chat];
-            if (groupData?.primaryOnly) {
-                const body = (m.body || '').trim().toLowerCase();
-                const isPrimaryCmd = ['#setprimary','#removeprimary','.setprimary','.removeprimary'].some(c => body.startsWith(c));
-                if (!isPrimaryCmd) return;
+        const opts = this.opts || global.opts || {}
+        if (m.isGroup) {
+            const chat = global.db?.data?.chats?.[m.chat];
+            if (chat?.primaryBot) {
+                const universalWords = ['resetbot', 'resetprimario', 'botreset'];
+                const firstWord = m.text ? m.text.trim().split(' ')[0].toLowerCase().replace(/^[./#]/, '') : '';
+                if (!universalWords.includes(firstWord)) {
+                    if (this?.user?.jid !== chat.primaryBot) return;
+                }
             }
         }
-
+        
+        sender = m.isGroup ? (m.key?.participant ? m.key.participant : m.sender) : m.key?.remoteJid;
+        const groupMetadata = m.isGroup ? { ...(this.chats[m.chat]?.metadata || await this.groupMetadata(m.chat).catch(_ => null) || {}), ...(((this.chats[m.chat]?.metadata || await this.groupMetadata(m.chat).catch(_ => null) || {}).participants) && { participants: ((this.chats[m.chat]?.metadata || await this.groupMetadata(m.chat).catch(_ => null) || {}).participants || []).map(p => ({ ...p, id: p.jid, jid: p.jid, lid: p.lid, admin: p.admin || p.isAdmin || p.role })) }) } : {}
+        const participants = ((m.isGroup ? groupMetadata.participants : []) || []).map(participant => ({ id: participant.jid, jid: participant.jid, lid: participant.lid, admin: participant.admin }))
+        
         if (m.isGroup) {
-            const muted = database.data?.groups?.[m.chat]?.muted || [];
-            if (muted.includes(m.sender)) {
-                try { await conn.sendMessage(m.chat, { delete: m.key }); } catch {}
-                return;
+            if (sender && sender.endsWith('@lid')) {
+                const pInfo = participants.find(p => p.lid === sender)
+                if (pInfo && pInfo.jid) {
+                    sender = pInfo.jid
+                    if (m.key) m.key.participant = pInfo.jid
+                    try { m.sender = pInfo.jid } catch (e) { }
+                }
             }
-        }
-
-        if (!m.body) return;
-
-        const prefix = getPrefix(m.body);
-        if (m.body && !m.fromMe) {
-            printLog(!!prefix, m.sender, m.isGroup ? m.chat : null, m.body, m.pushName);
-        }
-
-        if (m.isGroup) {
-            const bodyCheck   = (m.body || '').trim();
-            const tienePrefix = ['#', '.', '/', '$'].some(p => bodyCheck.startsWith(p));
-            if (!tienePrefix) {
-                for (const [, plugin] of plugins) {
-                    if (typeof plugin?.before === 'function') {
-                        try {
-                            const senderB  = (m.sender || '').replace(/:[0-9A-Za-z]+(?=@s\.whatsapp\.net)/, '');
-                            const isOwnerB = isOwnerJid(senderB);
-                            let isAdminB   = isOwnerB;
-                            if (!isAdminB) {
-                                try {
-                                    const gMeta = await conn.groupMetadata(m.chat);
-                                    isAdminB = gMeta.participants.some(p =>
-                                        (normalizeCore(p.id || p.jid) === normalizeCore(senderB)) &&
-                                        (p.admin || p.isAdmin || p.isSuperAdmin)
-                                    );
-                                } catch {}
-                            }
-                            const stop = await plugin.before(m, { conn, isAdmin: isAdminB, isOwner: isOwnerB });
-                            if (stop === true) return;
-                        } catch (e) {
-                            console.log(chalk.red('[BEFORE ERROR]'), e.message);
-                        }
+            if (m.quoted && m.quoted.sender && m.quoted.sender.endsWith('@lid')) {
+                const pInfo = participants.find(p => p.lid === m.quoted.sender)
+                if (pInfo && pInfo.jid) {
+                    if (m.quoted.key) m.quoted.key.participant = pInfo.jid
+                    try { m.quoted.sender = pInfo.jid } catch (e) { }
+                }
+            }
+            if (m.mentionedJid && m.mentionedJid.length > 0) {
+                const normalizedMentions = m.mentionedJid.map(jid => {
+                    if (jid && jid.endsWith('@lid')) {
+                        const pInfo = participants.find(p => p.lid === jid)
+                        return (pInfo && pInfo.jid) ? pInfo.jid : jid
                     }
+                    return jid
+                })
+                try { m.mentionedJid = normalizedMentions } catch (e) { }
+            }
+        }
+        
+        m.exp = 0
+        m.coin = false
+        
+        const userDefault = {
+            exp: 0, coin: 10, joincount: 1, diamond: 3, lastadventure: 0, health: 100,
+            lastclaim: 0, lastcofre: 0, lastdiamantes: 0, lastcode: 0, lastduel: 0,
+            lastpago: 0, lastmining: 0, lastcodereg: 0, muto: false, premium: false,
+            premiumTime: 0, registered: false, genre: '', birth: '', marry: '',
+            description: '', packstickers: null, name: m.name || '', age: -1,
+            regTime: -1, afk: -1, afkReason: '', role: 'Nuv', banned: false,
+            useDocument: false, level: 0, bank: 0, warn: 0, crime: 0
+        };
+        
+        const chatDefault = {
+            sAutoresponder: '', welcome: true, isBanned: false, autolevelup: false,
+            autoresponder: false, delete: false, autoAceptar: false, autoRechazar: false,
+            detect: true, antiBot: false, antiBot2: false, modoadmin: false,
+            antiLink: true, antifake: false, antiArabe: false, reaction: false,
+            nsw: false, expired: 0, welcomeText: null, byeText: null, audios: false,
+            botPrimario: null, bannedBots: [], antiImg: false, nsfw: false
+        };
+        
+        const settingsDefault = {
+            self: false, restrict: true, jadibotmd: true, antiPrivate: false,
+            moneda: 'Coins', autoread: false, status: 0
+        };
+        
+        let user = global.db.data.users[sender]
+        if (typeof user !== 'object') {
+            global.db.data.users[sender] = {}
+        }
+        user = global.db.data.users[sender]
+        for (const key in userDefault) {
+            if (userDefault[key] === null) continue;
+            if (typeof user[key] === 'undefined') {
+                user[key] = userDefault[key];
+            } else if (typeof userDefault[key] === 'number' && !isNumber(user[key])) {
+                user[key] = userDefault[key];
+            }
+        }
+        
+        if (m.chat) {
+            let chat = global.db.data.chats[m.chat]
+            if (typeof chat !== 'object') {
+                global.db.data.chats[m.chat] = {}
+            }
+            chat = global.db.data.chats[m.chat]
+            for (const key in chatDefault) {
+                if (chatDefault[key] === null) continue;
+                if (typeof chat[key] === 'undefined') {
+                    chat[key] = chatDefault[key];
+                } else if (typeof chatDefault[key] === 'number' && !isNumber(chat[key])) {
+                    chat[key] = chatDefault[key];
                 }
             }
         }
-
-        if (!prefix) return;
-
-        const body        = m.body.slice(prefix.length).trim();
-        const args        = body.split(/ +/).filter(Boolean);
-        const commandName = args.shift()?.toLowerCase();
-        if (!commandName) return;
-
-        let senderJid         = m.sender || '';
-        const senderCanonical = senderJid.replace(/:[0-9A-Za-z]+(?=@s\.whatsapp\.net)/, '');
-
-        if (senderCanonical !== senderJid) {
-            m.realSender = senderJid;
-            senderJid    = senderCanonical;
+        
+        let settings = global.db.data.settings[this.user.jid]
+        if (typeof settings !== 'object') {
+            global.db.data.settings[this.user.jid] = {}
         }
-
-        if (senderJid.endsWith('@lid') && m.isGroup) {
-            try {
-                const groupMeta = await conn.groupMetadata(m.chat);
-                const rawNum    = normalizeCore(senderJid);
-                const found     = groupMeta.participants.find(p => normalizeCore(p.id || p.jid) === rawNum);
-                if (found && (found.jid || found.id)?.endsWith('@s.whatsapp.net')) {
-                    senderJid = (found.jid || found.id).includes(':')
-                        ? (found.jid || found.id).split(':')[0] + '@s.whatsapp.net'
-                        : (found.jid || found.id);
-                    m.sender = senderJid;
-                }
-            } catch {}
-        }
-
-        const isROwner = isRootOwnerJid(senderJid);
-        const isOwner  = isROwner || isOwnerJid(senderJid);
-
-        let cmd = null;
-
-        if (prefix === '$') {
-            for (const [, plugin] of plugins) {
-                if (plugin.customPrefix?.includes?.('$')) {
-                    cmd = plugin; args.unshift(commandName); break;
-                }
-            }
-        } else {
-            for (const [, plugin] of plugins) {
-                if (!plugin.command) continue;
-                const cmds = Array.isArray(plugin.command)
-                    ? plugin.command
-                    : plugin.command instanceof RegExp ? [] : [plugin.command];
-                if (cmds.map(c => c.toLowerCase()).includes(commandName)) {
-                    cmd = plugin; break;
-                }
+        settings = global.db.data.settings[this.user.jid]
+        for (const key in settingsDefault) {
+            if (typeof settings[key] === 'undefined') {
+                settings[key] = settingsDefault[key];
             }
         }
-
-        if (!cmd) {
-            const allCommands = [];
-            for (const [, plugin] of plugins) {
-                if (!plugin.command) continue;
-                const cmds = Array.isArray(plugin.command) ? plugin.command : [plugin.command];
-                for (const c of cmds) { if (typeof c === 'string') allCommands.push(c.toLowerCase()); }
-            }
-
-            const similares = allCommands
-                .map(c => ({ cmd: c, score: similarity(commandName, c) }))
-                .filter(o => o.score >= 45)
-                .sort((a, b) => b.score - a.score)
-                .slice(0, 3);
-
-            let txt = `> 🩸 *[ TRABAJO INVÁLIDO ]*\n> *El comando ${prefix + commandName} no existe. No me hagas perder el tiempo con estupideces.*`;
-
-            if (similares.length) {
-                txt += `\n\n> 🩸 *[ ENCARGOS PARECIDOS ]*\n` + similares.map(s => `> *${prefix + s.cmd}*`).join('\n');
-            }
-
-            return tojiReply(conn, m, txt);
+        
+        if (opts['nyimak']) return
+        if (!m.fromMe && opts['self']) return
+        if (opts['swonly'] && m.chat !== 'status@broadcast') return
+        if (typeof m.text !== 'string') m.text = ''
+        
+        const _user = global.db.data.users[sender]
+        const userGroup = (m.isGroup ? participants.find((u) => (this.decodeJid ? this.decodeJid(u.jid) : u.jid) === sender) : {}) || {}
+        const botGroup = (m.isGroup ? participants.find((u) => (this.decodeJid ? this.decodeJid(u.jid) : u.jid) === this.user.jid) : {}) || {}
+        
+        const normalizeAdmin = (p) => {
+            if (!p) return false
+            const a = p.admin ?? false
+            if (a === true || a === 'admin') return 'admin'
+            if (['creator', 'superadmin', 'owner'].includes(a)) return 'superadmin'
+            return false
         }
-
-        const isPremium    = isOwner || isPremiumJid(senderJid);
-        const isRegistered = isOwner || !!database.data?.users?.[senderJid]?.registered;
-
-        const isGroup  = m.isGroup;
-        let isAdmin    = false;
-        let isBotAdmin = false;
-
-        if (isGroup) {
-            try {
-                const groupMeta = await conn.groupMetadata(m.chat);
-                isAdmin = groupMeta.participants.some(p =>
-                    (p.id === senderJid || p.jid === senderJid) && (p.admin || p.isAdmin || p.isSuperAdmin)
-                ) || isOwner;
-                const botJid = conn.user.id.split(':')[0] + '@s.whatsapp.net';
-                isBotAdmin   = groupMeta.participants.some(p =>
-                    (p.id === botJid || p.jid === botJid) && (p.admin || p.isAdmin || p.isSuperAdmin)
-                );
-            } catch (err) {
-                console.log(chalk.red('[ERROR GROUP META]'), err.message);
-            }
+        
+        const isRAdmin = normalizeAdmin(userGroup) === 'superadmin'
+        const isAdmin = isRAdmin || normalizeAdmin(userGroup) === 'admin'
+        const isBotAdmin = normalizeAdmin(botGroup) === 'admin' || normalizeAdmin(botGroup) === 'superadmin'
+        const senderNum = String(sender || '').split('@')[0];
+        const isROwner = global.owner.map(([number]) => number).includes(senderNum);
+        const isOwner = isROwner
+        const isMods = isOwner || global.mods.map(v => v.replace(/[^0-9]/g, '')).includes(senderNum)
+        const isPrems = isROwner || global.prems.map(v => v.replace(/[^0-9]/g, '')).includes(senderNum) || _user?.premium == true
+        const moneda = global.db.data.settings[this.user.jid]?.moneda || 'Coins'
+        m.moneda = moneda;
+        
+        if (opts['queque'] && m.text && !(isMods || isPrems)) {
+            let queque = this.msgqueque, time = 1000 * 5
+            const previousID = queque[queque.length - 1]
+            queque.push(m.id || m.key?.id)
+            setTimeout(async function () {
+                const idx = queque.indexOf(previousID)
+                if (idx !== -1) queque.splice(idx, 1)
+            }, time)
         }
-
-        if (!database.data.users)  database.data.users  = {};
-        if (!database.data.groups) database.data.groups = {};
-
-        if (!database.data.users[senderJid]) {
-            database.data.users[senderJid] = {
-                registered:       false, premium: false, banned: false,
-                warning: 0, exp: 0, level: 1, limit: 20,
-                lastclaim: 0, registered_time: 0,
-                name: m.pushName || '', age: null
-            };
-        }
-
-        if (isGroup && !database.data.groups[m.chat]) {
-            database.data.groups[m.chat] = { modoadmin: false, muted: [] };
-        }
-
-        let who = null;
-        if (m.mentionedJid?.[0]) who = m.mentionedJid[0];
-        else if (m.quoted?.sender) who = m.quoted.sender;
-
-        if (who) {
-            const rawNum = who.split('@')[0].split(':')[0];
-            const isLid  = who.endsWith('@lid') || rawNum.length > 13;
-            if (isLid && m.isGroup) {
+        
+        m.exp += Math.ceil(Math.random() * 10)
+        let usedPrefix
+        const ___dirname = path.join(path.dirname(fileURLToPath(import.meta.url)), './plugins')
+        
+        for (let name in global.plugins) {
+            let plugin = global.plugins[name]
+            if (!plugin) continue
+            if (plugin.disabled) continue
+            const __filename = join(___dirname, name)
+            
+            if (typeof plugin.all === 'function') {
                 try {
-                    const groupMeta = await conn.groupMetadata(m.chat);
-                    const found     = groupMeta.participants.find(p => normalizeCore(p.id || p.jid) === rawNum);
-                    if (found?.jid?.endsWith('@s.whatsapp.net')) {
-                        who = found.jid.includes(':') ? found.jid.split(':')[0] + '@s.whatsapp.net' : found.jid;
-                    } else if (found?.id?.endsWith('@s.whatsapp.net')) {
-                        who = found.id;
-                    } else {
-                        who = rawNum + '@s.whatsapp.net';
+                    await plugin.all.call(this, m, { chatUpdate, __dirname: ___dirname, __filename })
+                } catch (e) { console.error(e) }
+            }
+            
+            if (!opts['restrict'] && plugin.tags && plugin.tags.includes('admin')) continue
+            const str2Regex = str => str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
+            let _prefix = plugin.customPrefix ? plugin.customPrefix : this.prefix ? this.prefix : global.prefix
+            
+            let match = (_prefix instanceof RegExp ? [[_prefix.exec(m.text), _prefix]] :
+                Array.isArray(_prefix) ? _prefix.map(p => {
+                    let re = p instanceof RegExp ? p : new RegExp(str2Regex(p))
+                    return [re.exec(m.text), re]
+                }) :
+                typeof _prefix === 'string' ? [[new RegExp(str2Regex(_prefix)).exec(m.text), new RegExp(str2Regex(_prefix))]] : [[[], new RegExp]]
+            ).find(p => p[1])
+            
+            if (typeof plugin.before === 'function') {
+                if (await plugin.before.call(this, m, {
+                    match, conn: this, participants, groupMetadata, user: userGroup, bot: botGroup, isROwner, isOwner, isRAdmin, isAdmin, isBotAdmin, isPrems, chatUpdate, __dirname: ___dirname, __filename
+                })) continue
+            }
+            
+            if (typeof plugin !== 'function') continue
+            if (!(match && match[0])) continue
+            
+            if ((usedPrefix = (match[0] || '')[0])) {
+                let noPrefix = m.text.replace(usedPrefix, '')
+                let [command, ...args] = noPrefix.trim().split` `.filter(v => v)
+                args = args || []
+                let _args = noPrefix.trim().split` `.slice(1)
+                let text = _args.join` `
+                command = (command || '').toLowerCase()
+                let fail = plugin.fail || global.dfail
+                
+                let isAccept = plugin.command instanceof RegExp ? plugin.command.test(command) :
+                    Array.isArray(plugin.command) ? plugin.command.some(cmd => cmd instanceof RegExp ? cmd.test(command) : cmd === command) :
+                    typeof plugin.command === 'string' ? plugin.command === command : false
+                global.comando = command
+                
+                if ((m.id && (m.id.startsWith('NJX-') || (m.id.startsWith('BAE5') && m.id.length === 16) || (m.id.startsWith('B24E') && m.id.length === 20)))) return
+                if (!isAccept) continue
+                
+                m.plugin = name
+                let chatData = global.db.data.chats[m.chat] || {};
+                const isBotBannedInThisChat = chatData.bannedBots && chatData.bannedBots.includes(this.user.jid);
+                const unbanCommandFiles = ['grupo-unbanchat.js'];
+                if (isBotBannedInThisChat && !unbanCommandFiles.includes(name)) return;
+                
+                if (m.chat in global.db.data.chats || sender in global.db.data.users) {
+                    let chat = global.db.data.chats[m.chat]
+                    let user = global.db.data.users[sender]
+                    if (!['grupo-unbanchat.js'].includes(name) && chat && chat.isBanned && !isROwner) return
+                    if (name != 'grupo-unbanchat.js' && name != 'owner-exec.js' && name != 'owner-exec2.js' && name != 'grupo-delete.js' && chat?.isBanned && !isROwner) return
+                    if (m.text && user && user.banned && !isROwner) {
+                        if (!user.lastBanMsg || Date.now() - user.lastBanMsg > 30000) {
+                            m.reply(`《✦》Estas baneado/a, no puedes usar comandos en este bot!\n\n${user.bannedReason ? `✰ *Motivo:* ${user.bannedReason}` : '✰ *Motivo:* Sin Especificar'}\n\n> ✧ Si este Bot es cuenta ...`)
+                            user.lastBanMsg = Date.now();
+                        }
+                        return
                     }
-                } catch { who = rawNum + '@s.whatsapp.net'; }
-            } else {
-                who = rawNum + '@s.whatsapp.net';
+                    if (user && user.antispam && !user.banned) user.antispam = 0
+                }
+                
+                let adminMode = global.db.data.chats[m.chat]?.modoadmin
+                if (adminMode && m.isGroup && !isAdmin && !isOwner && !isROwner) return
+                
+                if (plugin.botAdmin && !isBotAdmin) { fail("botAdmin", m, this); continue }
+                if (plugin.rowner && plugin.owner && !(isROwner || isOwner)) { fail('owner', m, this); continue }
+                if (plugin.rowner && !isROwner) { fail('rowner', m, this); continue }
+                if (plugin.owner && !isOwner) { fail('owner', m, this); continue }
+                if (plugin.mods && !isMods) { fail('mods', m, this); continue }
+                if (plugin.premium && !isPrems) { fail('premium', m, this); continue }
+                if (plugin.admin && !isAdmin) { fail('admin', m, this); continue }
+                if (plugin.private && m.isGroup) { fail('private', m, this); continue }
+                if (plugin.group && !m.isGroup) { fail('group', m, this); continue }
+                if (plugin.register == true && _user?.registered == false) { fail('unreg', m, this); continue }
+                
+                m.isCommand = true
+                let xp = 'exp' in plugin ? parseInt(plugin.exp) : 17
+                if (xp > 200) m.reply('chirrido -_-')
+                else m.exp += xp
+                
+                if (!isPrems && plugin.coin && global.db.data.users[sender].coin < plugin.coin * 1) {
+                    this.reply(m.chat, `❮✦❯ Se agotaron tus ${m.moneda}`, m)
+                    continue
+                }
+                if (plugin.level > _user.level) {
+                    this.reply(m.chat, `❮✦❯ Se requiere el nivel: *${plugin.level}*\n\n• Tu nivel actual es: *${_user.level}*\n\n• Usa este comando para subir de nivel:\n*${usedPrefix}levelup*`, m)
+                    continue
+                }
+                
+                let extra = {
+                    match, usedPrefix, noPrefix, _args, args, command, text, conn: this, participants, groupMetadata, user: userGroup, bot: botGroup, isROwner, isOwner, isRAdmin, isAdmin, isBotAdmin, isPrems, chatUpdate, __dirname: ___dirname, __filename
+                }
+                try {
+                    await plugin.call(this, m, extra)
+                    if (!isPrems) m.coin = m.coin || plugin.coin || false
+                } catch (e) {
+                    m.error = e
+                    console.error(e)
+                    if (e) {
+                        let text = format(e)
+                        for (let key of Object.values(global.APIKeys || {}))
+                            text = text.replace(new RegExp(key, 'g'), 'Administrador')
+                        m.reply(text)
+                    }
+                } finally {
+                    if (typeof plugin.after === 'function') {
+                        try {
+                            await plugin.after.call(this, m, extra)
+                        } catch (e) { console.error(e) }
+                    }
+                    if (m.coin) this.reply(m.chat, `❮✦❯ Utilizaste ${+m.coin} ${m.moneda}`, m)
+                }
+                break
             }
         }
-
-        if (isGroup && database.data.groups[m.chat]?.modoadmin && !isAdmin && !isOwner) {
-            return tojiReply(conn, m, box('RESTRICCIÓN', ['Este lugar está bajo un régimen estricto. Vuelve cuando tengas poder aquí.']));
-        }
-
-        if (database.data.settings?.modoowner && !isOwner) {
-            return tojiReply(conn, m, box('CONTRATO EXCLUSIVO', ['Estoy bajo un encargo privado en este momento. No me busques.']));
-        }
-
-        if (database.data.users[senderJid]?.banned && !isOwner) {
-            return tojiReply(conn, m, box('OBJETIVO VETADO', ['Estás en mi lista negra. No hago tratos con escoria.']));
-        }
-
-        if (cmd.rowner && !isROwner) {
-            return tojiReply(conn, m, box('ACCESO DENEGADO', ['Esa orden está fuera de tu presupuesto. Solo mi programador manda aquí.']));
-        }
-
-        if (cmd.owner && !isOwner) {
-            return tojiReply(conn, m, box('ACCESO DENEGADO', ['No eres mi jefe ni me estás pagando lo suficiente. Desaparece.']));
-        }
-
-        if (cmd.premium && !isPremium) {
-            return tojiReply(conn, m, box('PAGO REQUERIDO', ['No me muevo gratis. Consigue una suscripción Premium si quieres que use mis armas.']));
-        }
-
-        if (cmd.register && !isRegistered) {
-            return tojiReply(conn, m, box('IDENTIDAD REQUERIDA', ['¿Y tú quién eres? No hago favores a desconocidos. Regístrate primero.']));
-        }
-
-        if (cmd.group && !isGroup) {
-            return tojiReply(conn, m, box('ENTORNO INCORRECTO', ['Este encargo requiere un grupo entero para ejecutarse. Muévete a un chat grupal.']));
-        }
-
-        if (cmd.admin && !isAdmin) {
-            return tojiReply(conn, m, box('FALTA DE PODER', ['Necesitas ser administrador para dar esta orden. Deja de jugar a ser el líder.']));
-        }
-
-        if (cmd.botAdmin && !isBotAdmin) {
-            return tojiReply(conn, m, box('LOGÍSTICA INSUFICIENTES', ['No tengo el control del grupo. Dame administrador para ejecutar el trabajo limpiamente.']));
-        }
-
-        if (cmd.private && isGroup) {
-            return tojiReply(conn, m, box('ZONA PRIVADA', ['No discutiré este contrato frente a todos. Háblame al chat privado (MD).']));
-        }
-
-        if (cmd.limit && !isPremium && !isOwner) {
-            const userLimit = database.data.users[senderJid].limit ?? 0;
-            if (userLimit < 1) {
-                return tojiReply(conn, m, box('BANCARROTA', ['Te quedaste sin fondos (Zenis). No trabajo por caridad, vuelve con dinero.']));
-            }
-            database.data.users[senderJid].limit -= 1;
-        }
-
+    } catch (e) {
+        console.error(e)
+    } finally {
         try {
-            const fn = typeof cmd.run === 'function' ? cmd.run.bind(cmd) : typeof cmd === 'function' ? cmd : null;
-            if (!fn) throw new TypeError(`Plugin "${commandName}" sin funcion valida`);
-
-            await fn(m, {
-                conn, args,
-                text: args.join(' '),
-                command: commandName,
-                usedPrefix: prefix,
-                isOwner, isROwner, isPremium, isRegistered,
-                isAdmin, isBotAdmin, isGroup,
-                who, db: database.data, prefix, plugins
-            });
-        } catch (e) {
-            console.log(chalk.red('\n[!] ERROR EN PLUGIN:'), e);
-            if (isOwner) await tojiReply(conn, m, box('FALLO EN EL ENCARGO', [String(e).slice(0, 280)]));
-        }
-
-    } catch (err) {
-        console.log(chalk.red('[HANDLER ERROR]'), err);
-    }
-};
+            if (this.msgqueque && (this.opts || global.opts || {})['queque'] && m && m.text) {
+                const quequeIndex = this.msgqueque.indexOf(m.id || m.key?.id)
+                if (quequeIndex !== -1) this.msgqueque.splice(quequeIndex, 1)
+            }
+        } catch (err) { }
+        let user, stats = global.db?.data?.stats || {}
+        try {
+            if (m) {
+                let utente = global.db.data.users[sender]
+                if (utente && utente.muto == true) {
+                    let bang = m.key.id
+                    let cancellazzione = m.key.participant
+                    try {
+                        await this.sendMessa
