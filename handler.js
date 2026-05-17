@@ -1,3 +1,11 @@
+/**
+ * ────────────────────────────────────────────────────────────────────────
+ * ✦ HANDLER PRINCIPAL - TOJI FUSHIGURO SYSTEM ✦
+ * Creador y Desarrollador: Aarom (Adrien)
+ * Agradecimientos: Félix (Asesoría en configuración de rcanal)
+ * ────────────────────────────────────────────────────────────────────────
+ */
+
 import './settings.js';
 import chalk from 'chalk';
 import printLog from './lib/print.js';
@@ -59,7 +67,6 @@ const PREFIXES = ['#', '.', '/', '$'];
 const getBuffer = async (url) => {
     try {
         if (!url) return null;
-        // Si es una URL remota, la forzamos a un JPG ultra liviano de 200x200 para cumplir las reglas de WhatsApp móvil
         const targetUrl = url.startsWith('http') 
             ? `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=200&h=200&output=jpg&bg=white` 
             : url;
@@ -87,37 +94,44 @@ const similarity = (a, b) => {
     return Math.floor((matches / Math.max(a.length, b.length)) * 100);
 };
 
+// ── 🛡️ RESPUESTA BLINDADA CONTRA INVISIBILIDAD EN WHATSAPP OFICIAL ───
 const tojiReply = async (conn, m, txt) => {
     try {
         let iconUrl = typeof global.getRandomIconoToji === 'function' 
             ? global.getRandomIconoToji() 
             : (global.icono || global.banner || '');
 
-        // Descarga el buffer ya optimizado, pequeño y sin transparencias rotas
         const thumbBuffer = await getBuffer(iconUrl);
+        const isValidNewsletter = global.newsletterJid && global.newsletterJid.includes('@newsletter');
+
+        let contextConfig = {
+            externalAdReply: {
+                title: '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍',
+                body: 'Asesino de Hechiceros',
+                mediaType: 1,
+                thumbnail: thumbBuffer, 
+                sourceUrl: global.rcanal || '',
+                renderLargerThumbnail: false
+            }
+        };
+
+        if (isValidNewsletter) {
+            contextConfig.isForwarded = true;
+            contextConfig.forwardedNewsletterMessageInfo = {
+                newsletterJid: global.newsletterJid,
+                serverMessageId: -1,
+                newsletterName: global.newsletterName || '༺𝕿𝔧᭄⏤͟͟͞͞𝕿𝖔𝖏𝖎 𝕱𝖚𝖘𝖍𝖎𝖌𝖚𝖗𝖔𒆜℘࿐༵'
+            };
+        }
 
         await conn.sendMessage(m.chat, { 
             text: txt, 
-            contextInfo: {
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid:   global.newsletterJid || '',
-                    serverMessageId: -1,
-                    newsletterName:  global.newsletterName || '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍'
-                },
-                externalAdReply: {
-                    title: '𝐇𝐄𝐀𝐕𝐄𝐍𝐋𝐘 𝐑𝐄𝐒𝐓𝐑𝐈𝐂𝐓𝐈𝐎𝐍',
-                    body: 'Asesino de Hechiceros',
-                    mediaType: 1,
-                    thumbnail: thumbBuffer, 
-                    sourceUrl: global.rcanal || '',
-                    renderLargerThumbnail: false
-                }
-            }
+            contextInfo: contextConfig
         }, { quoted: m });
+
     } catch (e) {
         console.log(chalk.red('[ERROR TOJI REPLY]'), e.message);
-        try { await m.reply(txt); } catch {}
+        try { await m.reply(`> 🩸 *[ MENSAJE DEL CLAN ZENIN ]*\n> *${txt}*`); } catch {}
     }
 };
 
