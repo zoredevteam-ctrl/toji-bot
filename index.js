@@ -30,28 +30,44 @@ const log = {
   error:   msg => console.log(chalk.bgHex('#EF4444').white.bold('  ERROR ')    + ' ' + chalk.redBright(msg))
 }
 
-// ─── PALETA MERCENARIA (TOJI FUSHIGURO) ────────────────────────────────────────
-const cSteel  = chalk.hex('#4E5D6C') // Gris Acero Oscuro
-const cSilver = chalk.hex('#E2E8F0') // Plata Brillante
-const cCurse  = chalk.hex('#8B5CF6') // Púrpura Energía Maldita
-const cBlood  = chalk.hex('#EF4444') // Rojo Restricción Celestial
-const cDark   = chalk.hex('#1F2937') // Carbón de fondo
+// ─── PALETA MERCENARIA v2 (TOJI FUSHIGURO) ───────────────────────────────────
+const cSteel  = chalk.hex('#4E5D6C')   // Gris Acero Oscuro
+const cSilver = chalk.hex('#C8D6E0')   // Plata Fría
+const cCurse  = chalk.hex('#8B5CF6')   // Púrpura Energía Maldita
+const cBlood  = chalk.hex('#EF4444')   // Rojo Restricción Celestial
+const cDim    = chalk.hex('#2a3a4a')   // Azul Carbón (bordes internos)
+const cGhost  = chalk.hex('#1e2e3e')   // Sombra Fantasma (decoración)
+const cTeal   = chalk.hex('#2DD4BF')   // Verde Teal (versión/estado)
 
-// ─── BANNER PREMIUM AKIRAX ────────────────────────────────────────────────────
+// ─── BANNER TOJI FUSHIGURO v2 ─────────────────────────────────────────────────
 const tojiBanner = `
-${cSteel('┌──────────────────────────────────────────────────────────────┐')}
-${cSteel('│')}  ${cCurse('████████╗ ██████╗  ██████╗██╗')}                                ${cSteel('│')}
-${cSteel('│')}  ${cCurse('╚══██╔══╝██╔═══██╗     ██║██║')}                                ${cSteel('│')}
-${cSteel('│')}  ${cSilver('   ██║   ██║   ██║     ██║██║')}   ${cBlood('M E R C E N A R Y')}          ${cSteel('│')}
-${cSteel('│')}  ${cSilver('   ██║   ██║   ██║██   ██║██║')}   ${cSilver('S Y S T E M')}              ${cSteel('│')}
-${cSteel('│')}  ${cSteel('   ██║   ╚██████╔╝╚█████╔╝██║')}                                ${cSteel('│')}
-${cSteel('│')}  ${cSteel('   ╚═╝    ╚═════╝  ╚════╝ ╚═╝')}                                ${cSteel('│')}
-${cSteel('│')}                                                              ${cSteel('│')}
-${cSteel('│')}  ${cSilver('⚔️  F U S H I G U R O   M U L T I D E V I C E   E D I T I O N')}   ${cSteel('│')}
-${cSteel('│')}  ${cSteel('──────────────────────────────────────────────────────────────')} ${cSteel('│')}
-${cSteel('│')}  ${cSilver.bold('  ˚₊· ͟͟͞͞  A D R I E N  |  Z0RT SYSTEMS        ')}                  ${cSteel('│')}
-${cSteel('│')}  ${chalk.gray('  Version: ' + (global.botVersion || '1.0.0') + '  |  Sorcerer Killer Core     ')}         ${cSteel('│')}
-${cSteel('└──────────────────────────────────────────────────────────────┘')}
+  ${cGhost('░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░')}
+
+  ${cDim('╔') + cGhost('═══════════════════════════════════════════════════════════════════') + cDim('╗')}
+  ${cDim('║')}                                                                   ${cDim('║')}
+  ${cDim('║')}  ${cCurse('▀█▀ ▄▀▀▄ ░░░  ▀   ')} ${cSteel('███████╗██╗   ██╗███████╗██╗  ██╗██╗')}  ${cDim('║')}
+  ${cDim('║')}  ${cCurse(' █  ██  █ ░░░  █   ')} ${cSteel('██╔════╝██║   ██║██╔════╝██║  ██║██║')}  ${cDim('║')}
+  ${cDim('║')}  ${cCurse(' █  ██  █ ░░░  █   ')} ${cSilver('███████╗██║   ██║███████╗███████║██║')}  ${cDim('║')}
+  ${cDim('║')}  ${cCurse(' █  ██  █ ░░░  █   ')} ${cSilver('╚════██║██║   ██║╚════██║██╔══██║██║')}  ${cDim('║')}
+  ${cDim('║')}  ${cBlood('▄█▄  ▀▀  ░░░ ███  ')} ${cSteel('███████║╚██████╔╝███████║██║  ██║██║')}  ${cDim('║')}
+  ${cDim('║')}  ${cGhost('                   ')} ${cSteel('╚══════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝')}  ${cDim('║')}
+  ${cDim('║')}                                                                   ${cDim('║')}
+  ${cDim('╠') + cGhost('═══════════════════════════════════════════════════════════════════') + cDim('╣')}
+  ${cDim('║')}                                                                   ${cDim('║')}
+  ${cDim('║')}     ${cSteel('⟦')} ${cCurse('F U S H I G U R O')} ${cSteel('⟧')}   ${cGhost('·')}   ${cSteel('⟦')} ${cBlood('H E A V E N L Y  R E S T R I C T I O N')} ${cSteel('⟧')}     ${cDim('║')}
+  ${cDim('║')}                                                                   ${cDim('║')}
+  ${cDim('║')}     ${cGhost('◈')} ${cSteel('S O R C E R E R  K I L L E R')}  ${cGhost('·')}  ${cSteel('M U L T I D E V I C E  C O R E')}  ${cGhost('◈')}     ${cDim('║')}
+  ${cDim('║')}                                                                   ${cDim('║')}
+  ${cDim('╠') + cGhost('═══════════════════════════════════════════════════════════════════') + cDim('╣')}
+  ${cDim('║')}                                                                   ${cDim('║')}
+  ${cDim('║')}   ${cGhost('▸')}  ${cSteel('AUTHOR')}   ${cGhost('············')}  ${cSilver.bold('˚₊· ͟͟͞͞  A D R I E N  |  Z0RT SYSTEMS')}    ${cDim('║')}
+  ${cDim('║')}   ${cGhost('▸')}  ${cSteel('VERSION')}  ${cGhost('···········')}  ${cTeal('v ' + (global.botVersion || '1.0.0') + '  —  S T A B L E')}               ${cDim('║')}
+  ${cDim('║')}   ${cGhost('▸')}  ${cSteel('PREFIX')}   ${cGhost('············')}  ${cSilver(global.prefix || '#')}  ${cGhost('·  ·  ·  ·  ·  ·  ·  ·  ·  ·')}              ${cDim('║')}
+  ${cDim('║')}   ${cGhost('▸')}  ${cSteel('STATUS')}   ${cGhost('············')}  ${cCurse('◉  O N L I N E')}                             ${cDim('║')}
+  ${cDim('║')}                                                                   ${cDim('║')}
+  ${cDim('╚') + cGhost('═══════════════════════════════════════════════════════════════════') + cDim('╝')}
+
+  ${cGhost('░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░')}
 `
 
 // ─── CARGA DE PLUGINS ─────────────────────────────────────────────────────────
@@ -92,16 +108,22 @@ async function startBot() {
   if (!methodCodeQR && !methodCode && !state.creds.registered && !opcion) {
     console.clear()
     console.log(tojiBanner)
-    console.log(cCurse.bold('✦ SELECCIONA TU MÉTODO DE VINCULACIÓN:\n'))
-    console.log(cSteel('   [ 1 ]') + cSilver(' Código QR'))
-    console.log(cSteel('   [ 2 ]') + cSilver(' Código de 8 dígitos'))
-    opcion = readlineSync.question(chalk.bold.yellow('\n ─── ✦ Elige una opción (1 o 2): ')).trim()
+    console.log(cDim('  ' + '─'.repeat(71)))
+    console.log(`  ${cGhost('▸')}  ${cCurse.bold('V I N C U L A C I Ó N')}  ${cGhost('·')}  ${cSteel('Selecciona tu método de acceso')}`)
+    console.log(cDim('  ' + '─'.repeat(71)))
+    console.log()
+    console.log(`  ${cDim('[')} ${cCurse.bold('1')} ${cDim(']')}  ${cSilver('Código QR')}           ${cGhost('···  Escanea con WhatsApp')}`)
+    console.log(`  ${cDim('[')} ${cCurse.bold('2')} ${cDim(']')}  ${cSilver('Código de 8 dígitos')}  ${cGhost('···  Vinculación por número')}`)
+    console.log()
+    opcion = readlineSync.question(`  ${cGhost('▸')}  ${cCurse('Opción')} ${cDim('(1 o 2):')}  `).trim()
 
     if (opcion === '2') {
+      console.log()
       phoneNumber = readlineSync
-        .question(cCurse('\n ✦ Ingresa tu número (ej: 57310...): '))
+        .question(`  ${cGhost('▸')}  ${cCurse('Número')} ${cDim('(ej: 57310...):')}  `)
         .replace(/\D/g, '')
     }
+    console.log()
   }
 
   const conn = makeWASocket({
@@ -133,11 +155,16 @@ async function startBot() {
       try {
         const code      = await conn.requestPairingCode(phoneNumber)
         const formatted = code?.match(/.{1,4}/g)?.join('-') || code
-        console.log(
-          chalk.bgHex('#8B5CF6').black.bold('\n ✦ TU CÓDIGO: ') +
-          chalk.bgBlack.white.bold(` ${formatted} `) +
-          '\n'
-        )
+        console.log()
+        console.log(cDim('  ' + '─'.repeat(71)))
+        console.log(`  ${cGhost('▸')}  ${cSteel('CÓDIGO DE VINCULACIÓN')}`)
+        console.log(cDim('  ' + '─'.repeat(71)))
+        console.log()
+        console.log(`  ${cGhost('  ')}  ${chalk.bgHex('#8B5CF6').black.bold('  ' + formatted + '  ')}`)
+        console.log()
+        console.log(`  ${cGhost('▸')}  ${cDim('Ingresa este código en')}  ${cSteel('WhatsApp → Dispositivos vinculados → Vincular dispositivo')}`)
+        console.log(cDim('  ' + '─'.repeat(71)))
+        console.log()
       } catch (e) {
         log.error(`No se pudo obtener el código: ${e.message}`)
       }
@@ -149,12 +176,21 @@ async function startBot() {
     const { qr, connection, lastDisconnect } = update
 
     if (qr && (opcion === '1' || methodCodeQR)) {
-      console.log(cCurse('\n ✦ Escanea este código QR:'))
+      console.log()
+      console.log(cDim('  ' + '─'.repeat(71)))
+      console.log(`  ${cGhost('▸')}  ${cCurse('C Ó D I G O  Q R')}  ${cGhost('···')}  ${cSteel('Escanea con WhatsApp')}`)
+      console.log(cDim('  ' + '─'.repeat(71)))
+      console.log()
       qrcode.generate(qr, { small: true })
     }
 
     if (connection === 'open') {
-      log.success(`Online: ${conn.user?.name || 'Toji Fushiguro Bot'} ✓`)
+      console.log()
+      console.log(cDim('  ' + '─'.repeat(71)))
+      console.log(`  ${cGhost('▸')}  ${cCurse('STATUS')}  ${cGhost('·')}  ${cTeal('◉  ONLINE')}  ${cGhost('···')}  ${cSilver(conn.user?.name || 'Toji Fushiguro Bot')}`)
+      console.log(`  ${cGhost('▸')}  ${cSteel('JID')}     ${cGhost('·')}  ${cDim(conn.user?.id || '—')}`)
+      console.log(cDim('  ' + '─'.repeat(71)))
+      console.log()
     }
 
     if (connection === 'close') {
@@ -188,15 +224,12 @@ async function startBot() {
   })
 
   // ─── EVENTO: MENSAJES ────────────────────────────────────────────────────
-  conn.ev.on('messages.upsert', async ({ messages, type }) => {
-    if (type !== 'notify') return
-    const m = messages[0]
-    if (!m?.message) return
-    const jid = m.key?.remoteJid || ''
-    if (jid === 'status@broadcast') return
-    if (jid.endsWith('@newsletter')) return
+  conn.ev.on('messages.upsert', async (chatUpdate) => {
+    if (chatUpdate.type !== 'notify') return
     try {
-      await handler(m, conn, plugins)
+      // ✅ CORRECCIÓN PRINCIPAL: handler.js usa "this" como conn
+      // y espera el objeto chatUpdate completo { messages, type }
+      await handler.call(conn, chatUpdate)
     } catch (e) {
       log.error(`handler: ${e.message}`)
     }
@@ -207,10 +240,31 @@ async function startBot() {
 ;(async () => {
   await database.read()
 
+  // ✅ Exponer la DB como global.db para que handler.js la encuentre
+  global.db = {
+    data: database.data,
+    loadDatabase: async () => { await database.read() }
+  }
+  global.loadDatabase = async () => { await database.read() }
+
   if (database.data?.settings?.prefix) global.prefix = database.data.settings.prefix
   if (database.data?.settings?.banner) global.banner = database.data.settings.banner
 
+  console.clear()
+  console.log(tojiBanner)
+
   await loadPlugins()
-  global.plugins = plugins
+
+  // ✅ handler.js itera global.plugins como objeto plano { nombre: plugin }
+  global.plugins = Object.fromEntries(plugins)
+
+  const totalPlugins = plugins.size
+  console.log(cDim('  ' + '─'.repeat(71)))
+  console.log(`  ${cGhost('▸')}  ${cSteel('DATABASE')}  ${cGhost('·')}  ${cTeal('Vinculada')}  ${cGhost('···')}  ${cDim(database.data ? 'OK' : 'ERROR')}`)
+  console.log(`  ${cGhost('▸')}  ${cSteel('PLUGINS')}   ${cGhost('·')}  ${cSilver(totalPlugins + ' cargados')}  ${cGhost('···')}  ${cDim('./plugins/')}`)
+  console.log(`  ${cGhost('▸')}  ${cSteel('PREFIX')}    ${cGhost('·')}  ${cSilver(global.prefix || '#')}`)
+  console.log(cDim('  ' + '─'.repeat(71)))
+  console.log()
+
   await startBot()
 })()
