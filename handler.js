@@ -411,4 +411,4 @@ export async function handler(chatUpdate) {
                 if (utente && utente.muto == true) {
                     let bang = m.key.id
                     try {
-                        await this.sendMessage(m.chat,
+                        await this.sendMessage(m.chat, 
